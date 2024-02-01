@@ -27,7 +27,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
         {
             Vector3 mousePosition = Mouse.current.position.ReadValue();
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
             RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray);
 
             switch (context.phase)
@@ -35,7 +34,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
                 case InputActionPhase.Performed:
                     if (hit2D.collider == null) return;
                     GameObject selectedObject = hit2D.collider.gameObject;
-
+                    
                     if (selectedObject.CompareTag("Unit"))
                     {
                         float positionValue = context.ReadValue<float>();

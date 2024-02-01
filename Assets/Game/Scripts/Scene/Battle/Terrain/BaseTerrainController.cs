@@ -8,6 +8,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
         private SpriteRenderer _spriteRenderer;
         private BaseTerrain _baseTerrain;
 
+        public BaseTerrain Terrain => _baseTerrain;
+
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();

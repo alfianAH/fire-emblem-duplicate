@@ -1,11 +1,26 @@
+using FireEmblemDuplicate.Scene.Battle.Terrain;
+using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
 using UnityEngine;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
-    public class BaseUnit
+    public class BaseUnit : MonoBehaviour
     {
         [SerializeField] private BaseUnitScriptableObject _baseUnitSO;
-        [SerializeField] private UnitAffinity _affinity;
-        private int _movementSpace;
+        [SerializeField] private UnitPhase _unitPhase = UnitPhase.Idle;
+
+        public UnitPhase UnitPhase => _unitPhase;
+        public BaseTerrainController TerrainController { get; private set; }
+        public int MovementSpace { get; private set; } = 0;
+
+        public void SetTerrain(BaseTerrainController terrainController)
+        {
+            TerrainController = terrainController;
+        }
+
+        public void SetUnitPhase(UnitPhase unitPhase)
+        {
+            _unitPhase = unitPhase;
+        }
     }
 }

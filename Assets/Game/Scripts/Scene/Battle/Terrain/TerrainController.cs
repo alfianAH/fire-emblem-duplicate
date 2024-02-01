@@ -8,7 +8,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
         private BaseTerrainController _terrainControllerPrefab;
         private Vector2 _terrainSize;
 
-        private void Start()
+        private void Awake()
         {
             LoadTerrainPrefab();
             CalculateTerrainSize();

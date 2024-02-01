@@ -1,4 +1,4 @@
-namespace FireEmblemDuplicate.Scene.Battle.Unit
+namespace FireEmblemDuplicate.Scene.Battle.Unit.Enum
 {
     public enum UnitAffinity
     {

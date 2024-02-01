@@ -3,13 +3,17 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using FireEmblemDuplicate.Scene.Battle.Stage;
+using FireEmblemDuplicate.Scene.Battle.Terrain;
+using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
     public class BaseUnitController : MonoBehaviour, IBaseUnitAction, IBaseUnitInteraction
     {
         [SerializeField, Range(0f, 1f)] private float _mouseDragSpeed = 0.01f;
+        [SerializeField] private LayerMask _terrainLayer = -1;
 
+        private BaseUnit _unit;
         private Camera _mainCamera;
         private Coroutine _dragUnitCoroutine;
         private StageController _stageController;
@@ -19,6 +23,20 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         {
             _mainCamera = Camera.main;
             _stageController = StageController.Instance;
+            _unit = GetComponent<BaseUnit>();
+        }
+
+        private void Start()
+        {
+            // Set terrain on start because terrain is made on awake
+            CheckTerrain();
+        }
+
+        private void Update()
+        {
+            // When unit is on drag, get the terrain below unit until unit is stopped being dragged
+            if (_unit.UnitPhase != UnitPhase.OnDrag) return;
+            CheckTerrain();
         }
 
         public void Attack()
@@ -33,19 +51,41 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         public void OnUnitClick(OnClickUnit message)
         {
-            
+            _unit.SetUnitPhase(UnitPhase.OnClick);
         }
 
         public void OnStartDragUnit(OnStartDragUnit message)
         {
             if (message.SelectedObject != gameObject) return;
             _dragUnitCoroutine = StartCoroutine(DragUpdate(message.SelectedObject, message.PositionValue));
+            _unit.SetUnitPhase(UnitPhase.OnDrag);
         }
 
         public void OnEndDragUnit(OnEndDragUnit message)
         {
             if (_dragUnitCoroutine == null) return;
             StopCoroutine(_dragUnitCoroutine);
+            
+            transform.position = _unit.TerrainController.transform.position;
+            _unit.SetUnitPhase(UnitPhase.Idle);
+        }
+
+        protected void CheckTerrain()
+        {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.forward, 1f, _terrainLayer.value);
+            if (!hit)
+            {
+                Debug.LogError("Can't find terrain");
+                return;
+            }
+            
+            if (!hit.collider.gameObject.TryGetComponent<BaseTerrainController>(out var terrainController))
+            {
+                Debug.LogError($"{hit.collider.gameObject.name} don't have BaseTerrainController");
+                return;
+            }
+
+            _unit.SetTerrain(terrainController);
         }
 
         /// <summary>

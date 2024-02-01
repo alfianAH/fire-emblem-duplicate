@@ -10,5 +10,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
             _xPos = x;
             _yPos = y;
         }
+
+        public int XPos => _xPos;
+        public int YPos => _yPos;
     }
 }
