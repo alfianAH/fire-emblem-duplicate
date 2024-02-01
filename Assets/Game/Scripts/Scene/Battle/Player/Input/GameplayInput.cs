@@ -29,9 +29,26 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
 
             RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray);
-            if (hit2D.collider != null && hit2D.collider.gameObject.CompareTag("Unit"))
+
+            if (hit2D.collider == null) return;
+            GameObject selectedObject = hit2D.collider.gameObject;
+
+            switch (context.phase)
             {
-                Messenger.Default.Publish(new OnDragUnit(mousePosition));
+                case InputActionPhase.Performed:
+                    if (selectedObject.CompareTag("Unit"))
+                    {
+                        float positionValue = context.ReadValue<float>();
+                        Messenger.Default.Publish(new OnStartDragUnit(selectedObject, positionValue));
+                    }
+                    break;
+
+                case InputActionPhase.Canceled:
+                    if (context.duration < 0.4f) return;
+
+                    if (selectedObject.CompareTag("Unit"))
+                        Messenger.Default.Publish(new OnEndDragUnit(selectedObject));
+                    break;
             }
         }
     }

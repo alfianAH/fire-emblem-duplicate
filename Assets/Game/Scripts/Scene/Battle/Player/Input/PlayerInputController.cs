@@ -16,6 +16,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
             _inputActionManager.Gameplay.Enable();
             _inputActionManager.Gameplay.Click.performed += _gameplayInput.OnClick;
             _inputActionManager.Gameplay.Drag.performed += _gameplayInput.OnDrag;
+            _inputActionManager.Gameplay.Drag.canceled += _gameplayInput.OnDrag;
         }
     }
 }

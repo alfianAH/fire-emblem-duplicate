@@ -6,6 +6,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
     public interface IBaseUnitInteraction
     {
         public void OnUnitClick(OnClickUnit message);
-        public void OnUnitDrag(OnDragUnit message);
+        public void OnStartDragUnit(OnStartDragUnit message);
+        public void OnEndDragUnit(OnEndDragUnit message);
     }
 }
