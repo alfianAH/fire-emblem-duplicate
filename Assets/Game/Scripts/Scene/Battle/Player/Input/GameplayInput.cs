@@ -30,12 +30,12 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
 
             RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray);
 
-            if (hit2D.collider == null) return;
-            GameObject selectedObject = hit2D.collider.gameObject;
-
             switch (context.phase)
             {
                 case InputActionPhase.Performed:
+                    if (hit2D.collider == null) return;
+                    GameObject selectedObject = hit2D.collider.gameObject;
+
                     if (selectedObject.CompareTag("Unit"))
                     {
                         float positionValue = context.ReadValue<float>();
@@ -46,8 +46,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
                 case InputActionPhase.Canceled:
                     if (context.duration < 0.4f) return;
 
-                    if (selectedObject.CompareTag("Unit"))
-                        Messenger.Default.Publish(new OnEndDragUnit(selectedObject));
+                    Messenger.Default.Publish(new OnEndDragUnit());
                     break;
             }
         }

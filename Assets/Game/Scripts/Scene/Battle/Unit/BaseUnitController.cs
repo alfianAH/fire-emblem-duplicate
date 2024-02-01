@@ -35,7 +35,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         public void OnUnitClick(OnClickUnit message)
         {
-            Debug.Log("click");
+            
         }
 
         public void OnStartDragUnit(OnStartDragUnit message)
@@ -46,7 +46,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         public void OnEndDragUnit(OnEndDragUnit message)
         {
-            if (_dragUnitCoroutine == null || message.SelectedObject != gameObject) return;
+            if (_dragUnitCoroutine == null) return;
             StopCoroutine(_dragUnitCoroutine);
         }
 
