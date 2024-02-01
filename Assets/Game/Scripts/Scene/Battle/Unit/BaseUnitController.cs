@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
-    public class BaseUnitController : MonoBehaviour, IBaseUnit
+    public class BaseUnitController : MonoBehaviour, IBaseUnitAction, IBaseUnitInteraction
     {
         public void Attack()
         {
