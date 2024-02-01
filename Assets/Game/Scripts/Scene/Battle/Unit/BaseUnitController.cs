@@ -1,9 +1,10 @@
 using FireEmblemDuplicate.Message;
-using FireEmblemDuplicate.PubSub;
+using FireEmblemDuplicate.Core.PubSub;
 using SuperMaxim.Messaging;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FireEmblemDuplicate.Scene.Battle.Stage;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
@@ -13,11 +14,13 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         private Camera _mainCamera;
         private Coroutine _dragUnitCoroutine;
+        private StageController _stageController;
         private Vector2 _velocity = Vector2.zero;
 
         private void Awake()
         {
             _mainCamera = Camera.main;
+            _stageController = StageController.Instance;
         }
 
         public void Attack()
@@ -74,11 +77,18 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
             while (positionValue != 0f)
             {
-                Debug.Log("move");
                 Vector3 mousePosition = Mouse.current.position.ReadValue();
                 Ray ray = _mainCamera.ScreenPointToRay(mousePosition);
 
-                selectedObject.transform.position = Vector2.SmoothDamp(selectedObject.transform.position, ray.GetPoint(initialDistance), ref _velocity, _mouseDragSpeed);
+                Vector2 newPosition = Vector2.SmoothDamp(selectedObject.transform.position, ray.GetPoint(initialDistance), ref _velocity, _mouseDragSpeed);
+
+                if (!_stageController.AllowedArea.Contains(newPosition))
+                {
+                    newPosition.x = Mathf.Clamp(newPosition.x, _stageController.AllowedArea.xMin, _stageController.AllowedArea.xMax);
+                    newPosition.y = Mathf.Clamp(newPosition.y, _stageController.AllowedArea.yMin, _stageController.AllowedArea.yMax);
+                }
+
+                selectedObject.transform.position = newPosition;
 
                 yield return null;
             }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FireEmblemDuplicate.PubSub
+namespace FireEmblemDuplicate.Core.PubSub
 {
     public abstract class Subscriber<T> : MonoBehaviour
         where T : MonoBehaviour
