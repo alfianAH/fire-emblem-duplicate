@@ -1,4 +1,5 @@
-using FireEmblemDuplicate.Scene.Battle.Unit;
+using FireEmblemDuplicate.Message;
+using SuperMaxim.Messaging;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static FireEmblemDuplicate.Scene.Battle.InputSystem.InputActionManager;
@@ -13,10 +14,12 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
 
             RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray);
-            if(hit2D.collider != null && hit2D.collider.gameObject.CompareTag("Unit"))
+            if(hit2D.collider != null)
             {
-                BaseUnitController unitController = hit2D.collider.gameObject.GetComponent<BaseUnitController>();
-                unitController.OnUnitClick();
+                if (hit2D.collider.gameObject.CompareTag("Unit"))
+                {
+                    Messenger.Default.Publish(new OnClickUnit());
+                }
             }
         }
 
@@ -28,8 +31,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
             RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray);
             if (hit2D.collider != null && hit2D.collider.gameObject.CompareTag("Unit"))
             {
-                BaseUnitController unitController = hit2D.collider.gameObject.GetComponent<BaseUnitController>();
-                unitController.OnUnitDrag();
+                Messenger.Default.Publish(new OnDragUnit(mousePosition));
             }
         }
     }
