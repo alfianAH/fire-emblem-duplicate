@@ -1,6 +1,4 @@
 using FireEmblemDuplicate.Message;
-using FireEmblemDuplicate.Core.PubSub;
-using SuperMaxim.Messaging;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,7 +6,7 @@ using FireEmblemDuplicate.Scene.Battle.Stage;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
-    public class BaseUnitController : Subscriber<BaseUnitController>, IBaseUnitAction, IBaseUnitInteraction
+    public class BaseUnitController : MonoBehaviour, IBaseUnitAction, IBaseUnitInteraction
     {
         [SerializeField, Range(0f, 1f)] private float _mouseDragSpeed = 0.01f;
 
@@ -48,20 +46,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         {
             if (_dragUnitCoroutine == null) return;
             StopCoroutine(_dragUnitCoroutine);
-        }
-
-        public override void Subscribe()
-        {
-            Messenger.Default.Subscribe<OnClickUnit>(OnUnitClick);
-            Messenger.Default.Subscribe<OnStartDragUnit>(OnStartDragUnit);
-            Messenger.Default.Subscribe<OnEndDragUnit>(OnEndDragUnit);
-        }
-
-        public override void Unsubscribe()
-        {
-            Messenger.Default.Unsubscribe<OnClickUnit>(OnUnitClick);
-            Messenger.Default.Unsubscribe<OnStartDragUnit>(OnStartDragUnit);
-            Messenger.Default.Unsubscribe<OnEndDragUnit>(OnEndDragUnit);
         }
 
         /// <summary>

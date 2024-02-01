@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FireEmblemDuplicate.Core.PubSub
 {
-    public abstract class Subscriber<T> : MonoBehaviour
+    public abstract class Connector<T> : MonoBehaviour
         where T : MonoBehaviour
     {
         public abstract void Subscribe();
