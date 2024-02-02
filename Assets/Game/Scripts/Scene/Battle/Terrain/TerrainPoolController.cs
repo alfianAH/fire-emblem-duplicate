@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FireEmblemDuplicate.Scene.Battle.Terrain
 {
-    public class TerrainController : MonoBehaviour
+    public class TerrainPoolController : MonoBehaviour
     {
         [SerializeField] private Vector2 _startPosition;
         private BaseTerrainController _terrainControllerPrefab;
