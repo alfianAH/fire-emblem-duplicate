@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
-    public class BaseUnit : MonoBehaviour
+    public abstract class BaseUnit : MonoBehaviour
     {
         [SerializeField] private BaseUnitScriptableObject _baseUnitSO;
         [SerializeField] private UnitPhase _unitPhase = UnitPhase.Idle;
@@ -12,6 +12,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public UnitPhase UnitPhase => _unitPhase;
         public BaseTerrainController TerrainController { get; private set; }
         public int MovementSpace { get; private set; } = 0;
+
+        public void SetMovementSpace(int movementSpace)
+        {
+            MovementSpace = movementSpace;
+        }
 
         public void SetTerrain(BaseTerrainController terrainController)
         {
