@@ -5,42 +5,49 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
     public class TerrainPoolController : MonoBehaviour
     {
         [SerializeField] private Vector2 _startPosition;
-        private BaseTerrainController _terrainControllerPrefab;
+        private TerrainDataScriptableObject _terrainData;
+        private float TERRAIN_SIZE = 0.7f;
         private Vector2 _terrainSize;
 
         private void Awake()
         {
-            LoadTerrainPrefab();
-            CalculateTerrainSize();
-            MakeTerrain(8, 9);
+            LoadTerrainData();
+            SetTerrainSize();
+            MakeTerrains(8, 9);
         }
 
-        private void LoadTerrainPrefab()
+        private void LoadTerrainData()
         {
-            _terrainControllerPrefab = Resources.Load<BaseTerrainController>("Prefabs/Terrain/Plain Terrain");
+            _terrainData = Resources.Load<TerrainDataScriptableObject>("SO/Terrain/Terrain Data");
 
-            if (_terrainControllerPrefab == null)
-                Debug.LogError("Can't find terrain prefab");
+            if (_terrainData == null)
+                Debug.LogError("Can't find terrain data");
         }
 
-        private void CalculateTerrainSize()
+        private void SetTerrainSize()
         {
-            SpriteRenderer terrainSprite = _terrainControllerPrefab.GetComponent<SpriteRenderer>();
-            _terrainSize = terrainSprite.transform.localScale;
+            _terrainSize = new Vector2(TERRAIN_SIZE, TERRAIN_SIZE);
         }
 
-        private void MakeTerrain(int xLen,  int yLen)
+        private void MakeTerrains(int xLen,  int yLen)
         {
             for(int i = 0; i < xLen; i++)
             {
                 for (int j = 0; j < yLen; j++)
                 {
-                    Vector2 terrainPosition = new Vector2(i, j) * _terrainSize + _startPosition;
-                    BaseTerrainController duplicateBaseTerrain = Instantiate(_terrainControllerPrefab, transform);
-                    duplicateBaseTerrain.SetTerrain(i, j);
-                    duplicateBaseTerrain.SetPosition(terrainPosition);
+                    MakeTerrain(i, j);
                 }
             }
+        }
+
+        private void MakeTerrain(int xPos, int yPos)
+        {
+            Vector2 terrainPosition = new Vector2(xPos, yPos) * _terrainSize + _startPosition;
+            BaseTerrainController duplicateBaseTerrain = Instantiate(_terrainData.Data[0].terrainControllerPrefab, transform);
+
+            duplicateBaseTerrain.SetTerrainSprite(_terrainData.Data[0].terrainSprite);
+            duplicateBaseTerrain.SetTerrain(xPos, yPos);
+            duplicateBaseTerrain.SetPosition(terrainPosition);
         }
     }
 }
