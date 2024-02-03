@@ -22,3 +22,6 @@ MonoBehaviour:
   - indicator: 2
     indicatorSprite: {fileID: 21300000, guid: 13ec684958b9cef4a834ba3ee733048b, type: 3}
     indicatorColor: {r: 1, g: 0, b: 0, a: 0.78431374}
+  - indicator: 3
+    indicatorSprite: {fileID: 21300000, guid: 13ec684958b9cef4a834ba3ee733048b, type: 3}
+    indicatorColor: {r: 0, g: 0, b: 1, a: 0.78431374}
