@@ -1,4 +1,4 @@
-namespace FireEmblemDuplicate.Scene.Battle.Unit.Infantry
+namespace FireEmblemDuplicate.Scene.Battle.Unit.Type.Cavalry
 {
     public class CavalryUnitController : BaseUnitController
     {
