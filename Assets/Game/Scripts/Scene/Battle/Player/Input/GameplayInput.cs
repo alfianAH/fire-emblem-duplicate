@@ -1,4 +1,7 @@
 using FireEmblemDuplicate.Message;
+using FireEmblemDuplicate.Scene.Battle.Stage;
+using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
+using FireEmblemDuplicate.Scene.Battle.Terrain;
 using SuperMaxim.Messaging;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,9 +19,16 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
             RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray);
             if(hit2D.collider != null)
             {
-                if (hit2D.collider.gameObject.CompareTag("Unit"))
+                GameObject selectedObject = hit2D.collider.gameObject;
+                if (selectedObject.CompareTag("Unit"))
                 {
                     Messenger.Default.Publish(new OnClickUnitMessage());
+                }
+                else if (selectedObject.CompareTag("Terrain") && 
+                    StageController.Instance.InPhase == InPhaseEnum.OnClickUnit)
+                {
+                    BaseTerrainController selectedTerrain = selectedObject.GetComponent<BaseTerrainController>();
+                    Messenger.Default.Publish(new OnClickTerrainMessage(selectedTerrain));
                 }
             }
         }

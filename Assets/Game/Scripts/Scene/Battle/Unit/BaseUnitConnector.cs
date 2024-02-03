@@ -11,6 +11,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             Messenger.Default.Subscribe<OnClickUnitMessage>(controller.OnUnitClick);
             Messenger.Default.Subscribe<OnStartDragUnitMessage>(controller.OnStartDragUnit);
             Messenger.Default.Subscribe<OnEndDragUnitMessage>(controller.OnEndDragUnit);
+            Messenger.Default.Subscribe<OnClickTerrainMessage>(controller.MoveUnitOnClickedTerrain);
         }
 
         public override void Unsubscribe()
@@ -18,6 +19,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             Messenger.Default.Unsubscribe<OnClickUnitMessage>(controller.OnUnitClick);
             Messenger.Default.Unsubscribe<OnStartDragUnitMessage>(controller.OnStartDragUnit);
             Messenger.Default.Unsubscribe<OnEndDragUnitMessage>(controller.OnEndDragUnit);
+            Messenger.Default.Unsubscribe<OnClickTerrainMessage>(controller.MoveUnitOnClickedTerrain);
         }
     }
 }

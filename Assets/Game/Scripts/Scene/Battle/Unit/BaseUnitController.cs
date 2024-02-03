@@ -9,6 +9,7 @@ using FireEmblemDuplicate.Utility;
 using System.Collections.Generic;
 using SuperMaxim.Messaging;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Enum;
+using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
@@ -61,6 +62,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                 case UnitPhase.Idle:
                     unit.SetOriginTerrain(unit.TerrainController);
                     unit.SetUnitPhase(UnitPhase.OnClick);
+
+                    // Change stage's unit and phase to send it to gameplay input
+                    Messenger.Default.Publish(new ChangeCurrentUnitOnClickMessage(this));
+                    Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.OnClickUnit));
                     break;
 
                 case UnitPhase.OnClick:
@@ -88,6 +93,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         {
             if (_dragUnitCoroutine == null) return;
             StopCoroutine(_dragUnitCoroutine);
+            _dragUnitCoroutine = null;
 
             Move();
 
@@ -98,6 +104,14 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                 unit.SetUnitPhase(UnitPhase.Idle);
 
             Messenger.Default.Publish(new DeactivateTerrainIndicatorMessage());
+        }
+
+        public void MoveUnitOnClickedTerrain(OnClickTerrainMessage message)
+        {
+            unit.SetTerrain(message.TerrainController);
+            unit.SetUnitPhase(UnitPhase.ConfirmOnClick);
+            Move();
+            Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
         }
 
         protected virtual void SetupUnit()
