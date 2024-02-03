@@ -13,5 +13,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
 
         public int XPos => _xPos;
         public int YPos => _yPos;
+        public bool CanBeUsed { get; private set; }
+
+        public void SetCanBeUsed(bool canBeUsed)
+        {
+            CanBeUsed = canBeUsed;
+        }
     }
 }

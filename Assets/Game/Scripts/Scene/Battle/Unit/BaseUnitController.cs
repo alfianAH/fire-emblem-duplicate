@@ -51,6 +51,15 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public void Move()
         {
             transform.position = unit.TerrainController.transform.position;
+            /*if (unit.TerrainController.Terrain.CanBeUsed)
+            {
+                transform.position = unit.TerrainController.transform.position;
+            }
+            else
+            {
+                if(unit.OriginTerrainController == null) return;
+                transform.position = unit.OriginTerrainController.transform.position;
+            }*/
         }
 
         public void OnUnitClick(OnClickUnitMessage message)
@@ -121,6 +130,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             Move();
         }
 
+        /// <summary>
+        /// Check terrain where unit is on
+        /// Used on Start and Update on drag
+        /// </summary>
         protected virtual void CheckTerrain()
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.forward, 1f, _terrainLayer);
@@ -140,6 +153,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             unit.SetTerrain(terrainController);
         }
 
+        /// <summary>
+        /// Publish message to terrain which terrain that available to be used to move around
+        /// </summary>
+        /// <param name="terrainPoints"></param>
         protected virtual void SetTerrainAsMovementArea(List<Vector2> terrainPoints)
         {
             if (unit.UnitPhase == UnitPhase.OnClick)

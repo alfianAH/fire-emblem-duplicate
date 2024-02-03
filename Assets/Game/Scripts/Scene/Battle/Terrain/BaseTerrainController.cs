@@ -52,6 +52,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
         private void SetIndicatorActive(bool isActive)
         {
             _indicatorSpriteRenderer.gameObject.SetActive(isActive);
+            _baseTerrain.SetCanBeUsed(isActive);
         }
 
         private void SetTerrainIndicator(TerrainIndicator newIndicator)
