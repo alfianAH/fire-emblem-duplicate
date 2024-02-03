@@ -18,7 +18,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
             {
                 if (hit2D.collider.gameObject.CompareTag("Unit"))
                 {
-                    Messenger.Default.Publish(new OnClickUnit());
+                    Messenger.Default.Publish(new OnClickUnitMessage());
                 }
             }
         }
@@ -38,7 +38,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
                     if (selectedObject.CompareTag("Unit"))
                     {
                         float positionValue = context.ReadValue<float>();
-                        Messenger.Default.Publish(new OnStartDragUnit(selectedObject, positionValue));
+                        Messenger.Default.Publish(new OnStartDragUnitMessage(selectedObject, positionValue));
                     }
                     break;
 
@@ -46,7 +46,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
                     if (context.duration < 0.4f) return;
 
                     // BUG: ADD IF TO LIMIT THE PUBLISH
-                    Messenger.Default.Publish(new OnEndDragUnit());
+                    Messenger.Default.Publish(new OnEndDragUnitMessage());
                     break;
             }
         }

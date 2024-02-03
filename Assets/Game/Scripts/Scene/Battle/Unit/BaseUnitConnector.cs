@@ -8,16 +8,16 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
     {
         public override void Subscribe()
         {
-            Messenger.Default.Subscribe<OnClickUnit>(controller.OnUnitClick);
-            Messenger.Default.Subscribe<OnStartDragUnit>(controller.OnStartDragUnit);
-            Messenger.Default.Subscribe<OnEndDragUnit>(controller.OnEndDragUnit);
+            Messenger.Default.Subscribe<OnClickUnitMessage>(controller.OnUnitClick);
+            Messenger.Default.Subscribe<OnStartDragUnitMessage>(controller.OnStartDragUnit);
+            Messenger.Default.Subscribe<OnEndDragUnitMessage>(controller.OnEndDragUnit);
         }
 
         public override void Unsubscribe()
         {
-            Messenger.Default.Unsubscribe<OnClickUnit>(controller.OnUnitClick);
-            Messenger.Default.Unsubscribe<OnStartDragUnit>(controller.OnStartDragUnit);
-            Messenger.Default.Unsubscribe<OnEndDragUnit>(controller.OnEndDragUnit);
+            Messenger.Default.Unsubscribe<OnClickUnitMessage>(controller.OnUnitClick);
+            Messenger.Default.Unsubscribe<OnStartDragUnitMessage>(controller.OnStartDragUnit);
+            Messenger.Default.Unsubscribe<OnEndDragUnitMessage>(controller.OnEndDragUnit);
         }
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FireEmblemDuplicate.Message
 {
-    public struct OnEndDragUnit
+    public struct OnEndDragUnitMessage
     {
     }
 }

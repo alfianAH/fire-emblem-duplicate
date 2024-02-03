@@ -1,6 +1,6 @@
 namespace FireEmblemDuplicate.Message
 {
-    public struct OnClickUnit
+    public struct OnClickUnitMessage
     {
         
     }

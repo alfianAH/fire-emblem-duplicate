@@ -52,7 +52,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             transform.position = unit.TerrainController.transform.position;
         }
 
-        public void OnUnitClick(OnClickUnit message)
+        public void OnUnitClick(OnClickUnitMessage message)
         {
             if (unit.MovementSpace == 0) return;
 
@@ -77,14 +77,14 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             InspectUnitMovementArea();
         }
 
-        public void OnStartDragUnit(OnStartDragUnit message)
+        public void OnStartDragUnit(OnStartDragUnitMessage message)
         {
             if (message.SelectedObject != gameObject) return;
             _dragUnitCoroutine = StartCoroutine(DragUpdate(message.SelectedObject, message.PositionValue));
             unit.SetUnitPhase(UnitPhase.OnDrag);
         }
 
-        public void OnEndDragUnit(OnEndDragUnit message)
+        public void OnEndDragUnit(OnEndDragUnitMessage message)
         {
             if (_dragUnitCoroutine == null) return;
             StopCoroutine(_dragUnitCoroutine);
