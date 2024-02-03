@@ -59,22 +59,25 @@ namespace FireEmblemDuplicate.Utility
             return pointsBetween;
         }
 
-        public static List<Vector2> GeneratePointsOnEdges(Vector2 point, int radius)
+        public static List<Vector2> GeneratePointsInsideRhombus(Vector2 point, int radius)
         {
-            List<Vector2> vertices = GenerateRhombusVertices(point, radius);
             List<Vector2> pointsOnEdges = new List<Vector2>();
-
-            for (int i = 0; i < vertices.Count; i++)
+            
+            for(int i = 0; i <= radius; i++)
             {
-                // Add the current vertex
-                pointsOnEdges.Add(vertices[i]);
-                Debug.Log("vertice: " + vertices[i]);
+                List<Vector2> vertices = GenerateRhombusVertices(point, i);
 
-                // Add points between current and next vertex
-                int nextIndex = (i + 1) % vertices.Count;
-                List<Vector2> pointsBetween = GeneratePointsBetween(vertices[i], vertices[nextIndex]);
-                
-                pointsOnEdges.AddRange(pointsBetween);
+                for (int j = 0; j < vertices.Count; j++)
+                {
+                    // Add the current vertex
+                    pointsOnEdges.Add(vertices[j]);
+
+                    // Add points between current and next vertex
+                    int nextIndex = (j + 1) % vertices.Count;
+                    List<Vector2> pointsBetween = GeneratePointsBetween(vertices[j], vertices[nextIndex]);
+
+                    pointsOnEdges.AddRange(pointsBetween);
+                }
             }
 
             return pointsOnEdges.Distinct().ToList();

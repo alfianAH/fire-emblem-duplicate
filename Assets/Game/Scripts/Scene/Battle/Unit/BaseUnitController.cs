@@ -106,7 +106,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             int currentXPos = unit.TerrainController.Terrain.XPos;
             int currentYPos = unit.TerrainController.Terrain.YPos;
 
-            List<Vector2> terrainPoints = RhombusPoints.GeneratePointsOnEdges(
+            List<Vector2> terrainPoints = RhombusPoints.GeneratePointsInsideRhombus(
                 new Vector2(currentXPos, currentYPos), 
                 unit.MovementSpace
             );
