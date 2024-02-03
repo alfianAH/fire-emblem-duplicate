@@ -29,6 +29,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
             SetIndicatorActive(true);
         }
 
+        public void DeactivateTerrainIndicator(DeactivateTerrainIndicatorMessage message)
+        {
+            SetIndicatorActive(false);
+        }
+
         public void SetPosition(Vector2 position)
         {
             transform.position = position;

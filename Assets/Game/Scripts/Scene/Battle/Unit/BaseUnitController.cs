@@ -55,7 +55,25 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public void OnUnitClick(OnClickUnit message)
         {
             if (unit.MovementSpace == 0) return;
-            unit.SetUnitPhase(UnitPhase.OnClick);
+
+            switch (unit.UnitPhase)
+            {
+                case UnitPhase.Idle:
+                    unit.SetOriginTerrain(unit.TerrainController);
+                    unit.SetUnitPhase(UnitPhase.OnClick);
+                    break;
+
+                case UnitPhase.OnClick:
+                    unit.SetUnitPhase(UnitPhase.ConfirmOnClick);
+                    break;
+
+                case UnitPhase.ConfirmOnClick:
+                    unit.SetUnitPhase(UnitPhase.Immovable);
+                    Messenger.Default.Publish(new DeactivateTerrainIndicatorMessage());
+                    break;
+
+                default: break;
+            }
             InspectUnitMovementArea();
         }
 
@@ -72,7 +90,14 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             StopCoroutine(_dragUnitCoroutine);
 
             Move();
-            unit.SetUnitPhase(UnitPhase.Idle);
+
+            // If on dragging and the terrain is the same on end drag, unit can still move
+            if (unit.TerrainController != unit.OriginTerrainController)
+                unit.SetUnitPhase(UnitPhase.Immovable);
+            else
+                unit.SetUnitPhase(UnitPhase.Idle);
+
+            Messenger.Default.Publish(new DeactivateTerrainIndicatorMessage());
         }
 
         protected virtual void SetupUnit()
@@ -101,8 +126,22 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             unit.SetTerrain(terrainController);
         }
 
+        protected virtual void SetTerrainAsMovementArea(List<Vector2> terrainPoints)
+        {
+            if (unit.UnitPhase == UnitPhase.OnClick)
+            {
+                foreach (Vector2 terrainPoint in terrainPoints)
+                {
+                    Messenger.Default.Publish(new ChangeTerrainIndicatorMessage(
+                        (int)terrainPoint.x, (int)terrainPoint.y, TerrainIndicator.MovementArea));
+                }
+            }
+        }
+
         private void InspectUnitMovementArea()
         {
+            if (unit.UnitPhase == UnitPhase.Immovable) return;
+
             int currentXPos = unit.TerrainController.Terrain.XPos;
             int currentYPos = unit.TerrainController.Terrain.YPos;
 
@@ -110,12 +149,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                 new Vector2(currentXPos, currentYPos), 
                 unit.MovementSpace
             );
-            
-            foreach(Vector2 terrainPoint in terrainPoints)
-            {
-                Messenger.Default.Publish(new ChangeTerrainIndicatorMessage(
-                    (int) terrainPoint.x, (int) terrainPoint.y, TerrainIndicator.MovementArea));
-            }
+
+            SetTerrainAsMovementArea(terrainPoints);
         }
 
         /// <summary>
