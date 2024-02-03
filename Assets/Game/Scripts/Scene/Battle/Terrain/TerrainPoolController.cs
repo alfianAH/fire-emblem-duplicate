@@ -45,6 +45,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
             Vector2 terrainPosition = new Vector2(xPos, yPos) * _terrainSize + _startPosition;
             BaseTerrainController duplicateBaseTerrain = Instantiate(_terrainData.Data[0].terrainControllerPrefab, transform);
 
+            duplicateBaseTerrain.gameObject.name = $"Terrain ({xPos}, {yPos})";
             duplicateBaseTerrain.SetTerrainSprite(_terrainData.Data[0].terrainSprite);
             duplicateBaseTerrain.SetTerrain(xPos, yPos);
             duplicateBaseTerrain.SetPosition(terrainPosition);

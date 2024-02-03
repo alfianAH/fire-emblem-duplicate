@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 using FireEmblemDuplicate.Scene.Battle.Stage;
 using FireEmblemDuplicate.Scene.Battle.Terrain;
 using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
+using FireEmblemDuplicate.Utility;
+using System.Collections.Generic;
+using SuperMaxim.Messaging;
+using FireEmblemDuplicate.Scene.Battle.Terrain.Enum;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
@@ -52,6 +56,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         {
             if (unit.MovementSpace == 0) return;
             unit.SetUnitPhase(UnitPhase.OnClick);
+            InspectUnitMovementArea();
         }
 
         public void OnStartDragUnit(OnStartDragUnit message)
@@ -94,6 +99,23 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             }
 
             unit.SetTerrain(terrainController);
+        }
+
+        private void InspectUnitMovementArea()
+        {
+            int currentXPos = unit.TerrainController.Terrain.XPos;
+            int currentYPos = unit.TerrainController.Terrain.YPos;
+
+            List<Vector2> terrainPoints = RhombusPoints.GeneratePointsOnEdges(
+                new Vector2(currentXPos, currentYPos), 
+                unit.MovementSpace
+            );
+            
+            foreach(Vector2 terrainPoint in terrainPoints)
+            {
+                Messenger.Default.Publish(new ChangeTerrainIndicatorMessage(
+                    (int) terrainPoint.x, (int) terrainPoint.y, TerrainIndicator.MovementArea));
+            }
         }
 
         /// <summary>
