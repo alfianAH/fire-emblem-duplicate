@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1520531593018591350}
   - component: {fileID: 3445918108288578412}
   m_Layer: 0
-  m_Name: Flier Unit
+  m_Name: Flier
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
