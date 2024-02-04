@@ -166,10 +166,26 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             {
                 foreach (Vector2 terrainPoint in terrainPoints)
                 {
-                    Messenger.Default.Publish(new ChangeTerrainIndicatorMessage(
-                        (int)terrainPoint.x, (int)terrainPoint.y, TerrainIndicator.MovementArea));
+                    SetTerrainIndicator(terrainPoint, TerrainIndicator.MovementArea);
                 }
             }
+        }
+
+        private void SetTerrainAsAttackArea(List<Vector2> terrainPoints)
+        {
+            if (unit.UnitPhase == UnitPhase.OnClick)
+            {
+                foreach (Vector2 terrainPoint in terrainPoints)
+                {
+                    SetTerrainIndicator(terrainPoint, TerrainIndicator.AttackingArea);
+                }
+            }
+        }
+
+        private void SetTerrainIndicator(Vector2 terrainPoint, TerrainIndicator indicator)
+        {
+            Messenger.Default.Publish(new ChangeTerrainIndicatorMessage(
+                (int)terrainPoint.x, (int)terrainPoint.y, indicator));
         }
 
         private void SetUnitTypeSprite()
@@ -184,12 +200,17 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             int currentXPos = unit.TerrainController.Terrain.XPos;
             int currentYPos = unit.TerrainController.Terrain.YPos;
 
-            List<Vector2> terrainPoints = RhombusPoints.GeneratePointsInsideRhombus(
+            List<Vector2> attackingTerrainPoints = RhombusPoints.GeneratePointsInsideRhombus(
+                new Vector2(currentXPos, currentYPos),
+                unit.MovementSpace + unit.WeaponController.WeaponSO.Range
+            );
+            List<Vector2> movementTerrainPoints = RhombusPoints.GeneratePointsInsideRhombus(
                 new Vector2(currentXPos, currentYPos), 
                 unit.MovementSpace
             );
 
-            SetTerrainAsMovementArea(terrainPoints);
+            SetTerrainAsAttackArea(attackingTerrainPoints);
+            SetTerrainAsMovementArea(movementTerrainPoints);
         }
 
         /// <summary>
