@@ -12,14 +12,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Weapon
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public void SetSprite()
-        {
-            _spriteRenderer.sprite = WeaponSO.WeaponSprite;
-        }
-
         public void SetWeaponSO(WeaponScriptableObject weaponSO)
         {
             WeaponSO = weaponSO;
+            _spriteRenderer.sprite = WeaponSO.WeaponSprite;
         }
     }
 }
