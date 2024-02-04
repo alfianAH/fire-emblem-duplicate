@@ -31,7 +31,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Stage
             ProcessStageData();
         }
 
-        //1AE700 green E72400 red
         public void SetCurrentUnitOnClick(ChangeCurrentUnitOnClickMessage message)
         {
             CurrentUnitOnClick = message.UnitController;
