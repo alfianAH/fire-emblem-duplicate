@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using SuperMaxim.Messaging;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Enum;
 using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
-using FireEmblemDuplicate.Scene.Battle.Weapon;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
@@ -23,19 +22,18 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         protected BaseUnit unit;
         private Camera _mainCamera;
         private Coroutine _dragUnitCoroutine;
+        private SpriteRenderer _spriteRenderer;
         private StageController _stageController;
         private Vector2 _velocity = Vector2.zero;
+
+        public BaseUnit Unit => unit;
 
         private void Awake()
         {
             _mainCamera = Camera.main;
             _stageController = StageController.Instance;
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             unit = GetComponent<BaseUnit>();
-        }
-
-        private void Start()
-        {
-            SetupUnit();
         }
 
         private void Update()
@@ -125,12 +123,12 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
         }
 
-        protected virtual void SetupUnit()
+        public virtual void SetupUnit()
         {
             // Set terrain on start because terrain is made on awake
-            CheckTerrain();
             Move();
             SetUnitTypeSprite();
+            SetUnitColor();
         }
 
         /// <summary>
@@ -169,6 +167,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     SetTerrainIndicator(terrainPoint, TerrainIndicator.MovementArea);
                 }
             }
+        }
+
+        private void SetUnitColor()
+        {
+            _spriteRenderer.color = unit.UnitColor;
         }
 
         private void SetTerrainAsAttackArea(List<Vector2> terrainPoints)

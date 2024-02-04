@@ -11,6 +11,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         [SerializeField] private UnitPhase _unitPhase = UnitPhase.Idle;
         [SerializeField] private WeaponController _weaponController;
 
+        public Color UnitColor { get; private set; }
         public Sprite UnitTypeSprite => _unitTypeSprite;
         public UnitPhase UnitPhase => _unitPhase;
         public WeaponController WeaponController => _weaponController;
@@ -18,6 +19,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public BaseTerrainController OriginTerrainController { get; private set; }
         public BaseTerrainController TerrainController { get; private set; }
         public int MovementSpace { get; private set; } = 0;
+
+        public void SetUnitColor(Color color)
+        {
+            UnitColor = color;
+        }
 
         public void SetUnitSO(BaseUnitScriptableObject unit)
         {
