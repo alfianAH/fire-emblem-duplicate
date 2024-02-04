@@ -6,13 +6,20 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
     public abstract class BaseUnit : MonoBehaviour
     {
-        [SerializeField] private BaseUnitScriptableObject _baseUnitSO;
+        [SerializeField] private Sprite _unitTypeSprite;
         [SerializeField] private UnitPhase _unitPhase = UnitPhase.Idle;
 
+        public Sprite UnitTypeSprite => _unitTypeSprite;
         public UnitPhase UnitPhase => _unitPhase;
+        public BaseUnitScriptableObject BaseUnitSO { get; private set; }
         public BaseTerrainController OriginTerrainController { get; private set; }
         public BaseTerrainController TerrainController { get; private set; }
         public int MovementSpace { get; private set; } = 0;
+
+        public void SetUnitSO(BaseUnitScriptableObject unit)
+        {
+            BaseUnitSO = unit;
+        }
 
         public void SetMovementSpace(int movementSpace)
         {

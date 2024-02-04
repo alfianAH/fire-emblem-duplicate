@@ -15,6 +15,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
     public abstract class BaseUnitController : MonoBehaviour, IBaseUnitAction, IBaseUnitInteraction
     {
+        [SerializeField] private SpriteRenderer _unitTypeSpriteRenderer;
         [SerializeField, Range(0f, 1f)] private float _mouseDragSpeed = 0.01f;
         [SerializeField] private LayerMask _terrainLayer = -1;
 
@@ -128,6 +129,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             // Set terrain on start because terrain is made on awake
             CheckTerrain();
             Move();
+            SetUnitTypeSprite();
         }
 
         /// <summary>
@@ -167,6 +169,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                         (int)terrainPoint.x, (int)terrainPoint.y, TerrainIndicator.MovementArea));
                 }
             }
+        }
+
+        private void SetUnitTypeSprite()
+        {
+            _unitTypeSpriteRenderer.sprite = unit.UnitTypeSprite;
         }
 
         private void InspectUnitMovementArea()
