@@ -415,6 +415,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flier Unit
       objectReference: {fileID: 0}
+    - target: {fileID: 99829663958664574, guid: 9d7e81aae3452ce448b19696610a5817, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8673113157585929796, guid: 9d7e81aae3452ce448b19696610a5817, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.35
@@ -471,6 +475,10 @@ PrefabInstance:
     - target: {fileID: 1744471280221846078, guid: 9762722667d668544872e6a53636f6b5, type: 3}
       propertyPath: m_Name
       value: Cavalry Unit
+      objectReference: {fileID: 0}
+    - target: {fileID: 1744471280221846078, guid: 9762722667d668544872e6a53636f6b5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2859391199334996962, guid: 9762722667d668544872e6a53636f6b5, type: 3}
       propertyPath: m_LocalPosition.x

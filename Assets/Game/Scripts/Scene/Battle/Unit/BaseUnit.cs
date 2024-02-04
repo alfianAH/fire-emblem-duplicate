@@ -1,5 +1,6 @@
 using FireEmblemDuplicate.Scene.Battle.Terrain;
 using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
+using FireEmblemDuplicate.Scene.Battle.Weapon;
 using UnityEngine;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
@@ -8,9 +9,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
     {
         [SerializeField] private Sprite _unitTypeSprite;
         [SerializeField] private UnitPhase _unitPhase = UnitPhase.Idle;
+        [SerializeField] private WeaponController _weaponController;
 
         public Sprite UnitTypeSprite => _unitTypeSprite;
         public UnitPhase UnitPhase => _unitPhase;
+        public WeaponController WeaponController => _weaponController;
         public BaseUnitScriptableObject BaseUnitSO { get; private set; }
         public BaseTerrainController OriginTerrainController { get; private set; }
         public BaseTerrainController TerrainController { get; private set; }

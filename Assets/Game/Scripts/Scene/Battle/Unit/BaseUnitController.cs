@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using SuperMaxim.Messaging;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Enum;
 using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
+using FireEmblemDuplicate.Scene.Battle.Weapon;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
