@@ -368,7 +368,7 @@
   },
   "PlayerUnits": [
     {
-      "UnitSO": "SO/Unit/a-i-sw-u001",
+      "UnitSO": "SO/Unit/Ally/a-u001-i-sw",
       "UnitPrefab": "Prefabs/Unit/Infantry",
       "UnitWeapon": "SO/Weapon/Sword",
       "UnitPosition": {
@@ -377,7 +377,7 @@
       }
     },
     {
-      "UnitSO": "SO/Unit/a-c-sw-u002",
+      "UnitSO": "SO/Unit/Ally/a-u002-c-sw",
       "UnitPrefab": "Prefabs/Unit/Cavalry",
       "UnitWeapon": "SO/Weapon/Sword",
       "UnitPosition": {
@@ -386,7 +386,7 @@
       }
     },
     {
-      "UnitSO": "SO/Unit/a-i-b-u003",
+      "UnitSO": "SO/Unit/Ally/a-u003-i-b",
       "UnitPrefab": "Prefabs/Unit/Infantry",
       "UnitWeapon": "SO/Weapon/Bow",
       "UnitPosition": {
@@ -395,7 +395,7 @@
       }
     },
     {
-      "UnitSO": "SO/Unit/a-f-st-u004",
+      "UnitSO": "SO/Unit/Ally/a-u004-f-st",
       "UnitPrefab": "Prefabs/Unit/Flier",
       "UnitWeapon": "SO/Weapon/Staff",
       "UnitPosition": {
@@ -406,7 +406,7 @@
   ],
   "EnemyUnits": [
     {
-      "UnitSO": "SO/Unit/e-i-sw-u001",
+      "UnitSO": "SO/Unit/Enemy/e-u001-i-sw",
       "UnitPrefab": "Prefabs/Unit/Infantry",
       "UnitWeapon": "SO/Weapon/Sword",
       "UnitPosition": {
@@ -415,7 +415,7 @@
       }
     },
     {
-      "UnitSO": "SO/Unit/e-c-sw-u002",
+      "UnitSO": "SO/Unit/Enemy/e-u002-c-sw",
       "UnitPrefab": "Prefabs/Unit/Cavalry",
       "UnitWeapon": "SO/Weapon/Sword",
       "UnitPosition": {
@@ -424,7 +424,7 @@
       }
     },
     {
-      "UnitSO": "SO/Unit/e-i-b-u003",
+      "UnitSO": "SO/Unit/Enemy/e-u003-i-b",
       "UnitPrefab": "Prefabs/Unit/Infantry",
       "UnitWeapon": "SO/Weapon/Bow",
       "UnitPosition": {
@@ -433,7 +433,7 @@
       }
     },
     {
-      "UnitSO": "SO/Unit/e-f-st-u004",
+      "UnitSO": "SO/Unit/Enemy/e-u004-f-st",
       "UnitPrefab": "Prefabs/Unit/Flier",
       "UnitWeapon": "SO/Weapon/Staff",
       "UnitPosition": {
