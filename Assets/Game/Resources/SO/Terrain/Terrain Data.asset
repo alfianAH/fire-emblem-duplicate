@@ -18,10 +18,10 @@ MonoBehaviour:
     terrainControllerPrefab: {fileID: 5205892697333242526, guid: e64dafbd8a4120e4091f8c439b2fdea2, type: 3}
   - name: forest
     terrainSprite: {fileID: 21300000, guid: d0cab5454b1f63d47a8b6f2d631e5014, type: 3}
-    terrainControllerPrefab: {fileID: 0}
+    terrainControllerPrefab: {fileID: 7974322992432625257, guid: 79435eed4dfd6814e8d5259465bb5a22, type: 3}
   - name: mountain
     terrainSprite: {fileID: 21300000, guid: e9ff3e723df94024f94dfb2254d42cdb, type: 3}
-    terrainControllerPrefab: {fileID: 0}
+    terrainControllerPrefab: {fileID: 3126936883999436483, guid: f8930c1b9fc4e2c4c990e88098b7eebf, type: 3}
   - name: ruin
     terrainSprite: {fileID: 21300000, guid: 236388fc82892204d89befefff661528, type: 3}
-    terrainControllerPrefab: {fileID: 0}
+    terrainControllerPrefab: {fileID: 4763370571637966966, guid: 4af59a6df87532c45b4e406569a0cb9e, type: 3}
