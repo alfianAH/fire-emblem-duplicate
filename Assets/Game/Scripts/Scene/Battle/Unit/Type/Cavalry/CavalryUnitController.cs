@@ -13,12 +13,12 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Type.Cavalry
             unit.SetMovementSpace(3);
         }
 
-        protected override List<System.Type> ImpassableTerrains()
+        protected override List<UnitImpassableTerrain> ImpassableTerrains()
         {
-            List<System.Type> impassableTerrains = base.ImpassableTerrains();
-            impassableTerrains.Add(typeof(MountainTerrainController));
-            impassableTerrains.Add(typeof(RuinTerrainController));
-            impassableTerrains.Add(typeof(ForestTerrainController));
+            List<UnitImpassableTerrain> impassableTerrains = base.ImpassableTerrains();
+            impassableTerrains.Add(new UnitImpassableTerrain(typeof(MountainTerrainController)));
+            impassableTerrains.Add(new UnitImpassableTerrain(typeof(RuinTerrainController)));
+            impassableTerrains.Add(new UnitImpassableTerrain(typeof(ForestTerrainController)));
 
             return impassableTerrains;
         }

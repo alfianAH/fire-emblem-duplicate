@@ -1,6 +1,7 @@
 using FireEmblemDuplicate.Scene.Battle.Terrain;
 using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
 using FireEmblemDuplicate.Scene.Battle.Weapon;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
@@ -18,6 +19,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public BaseUnitScriptableObject BaseUnitSO { get; private set; }
         public BaseTerrainController OriginTerrainController { get; private set; }
         public BaseTerrainController TerrainController { get; private set; }
+        public List<Vector2> BlockedTerrain { get; private set; } = new List<Vector2>();
         public int MovementSpace { get; private set; } = 0;
 
         public void SetUnitColor(Color color)
@@ -48,6 +50,18 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public void SetUnitPhase(UnitPhase unitPhase)
         {
             _unitPhase = unitPhase;
+        }
+
+        public void AddBlockedTerrain(Vector2 point)
+        {
+            if(BlockedTerrain.Contains(point)) return;
+
+            BlockedTerrain.Add(point);
+        }
+
+        public void RemoveBlockedTerrain()
+        {
+            BlockedTerrain.Clear();
         }
     }
 }

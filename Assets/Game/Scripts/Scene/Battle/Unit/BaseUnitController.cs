@@ -55,6 +55,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             if (unit.TerrainController.Terrain.CanBeUsed)
             {
                 transform.position = unit.TerrainController.transform.position;
+
+                // Reset unit blocked terrain
+                unit.RemoveBlockedTerrain();
             }
             else
             {
@@ -164,9 +167,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             unit.SetTerrain(terrainController);
         }
 
-        protected virtual List<System.Type> ImpassableTerrains()
+        protected virtual List<UnitImpassableTerrain> ImpassableTerrains()
         {
-            return new List<System.Type>();
+            return new List<UnitImpassableTerrain>();
         }
 
         /// <summary>
@@ -179,18 +182,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             {
                 foreach (Vector2 terrainPoint in terrainPoints)
                 {
-                    // Check terrain
-                    BaseTerrainController terrain = TerrainPoolController.Instance.TerrainPool.Find(
-                        t => t.Terrain.XPos == terrainPoint.x && t.Terrain.YPos == terrainPoint.y);
-
-                    if (terrain == null) continue;
-
-                    // If terrain is impassable, mark it as impassable
-                    if (ImpassableTerrains().Contains(terrain.GetType()))
-                    {
-                        SetTerrainIndicator(terrainPoint, TerrainIndicator.Impassable);
-                        continue;
-                    }
+                    if (BlockMovement(terrainPoint)) continue;
 
                     SetTerrainIndicator(terrainPoint, TerrainIndicator.MovementArea);
                 }
@@ -203,6 +195,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             {
                 foreach (Vector2 terrainPoint in terrainPoints)
                 {
+                    // NOTE: CEK APAKAH MASIH ADA ATTACK AREA SETELAH DIBLOCK TERRAIN
                     SetTerrainIndicator(terrainPoint, TerrainIndicator.AttackingArea);
                 }
             }
@@ -212,6 +205,85 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         {
             Messenger.Default.Publish(new ChangeTerrainIndicatorMessage(
                 (int)terrainPoint.x, (int)terrainPoint.y, indicator));
+        }
+
+        private bool BlockMovement(Vector2 terrainPoint)
+        {
+            bool isBlocked = false;
+
+            // If terrain is blocked, mark it as impassable
+            if (unit.BlockedTerrain.Contains(terrainPoint))
+            {
+                isBlocked = true;
+                SetTerrainIndicator(terrainPoint, TerrainIndicator.AttackingArea);
+                return isBlocked;
+            }
+
+            // Check terrain
+            BaseTerrainController terrain = TerrainPoolController.Instance.TerrainPool.Find(
+                t => t.Terrain.XPos == terrainPoint.x && t.Terrain.YPos == terrainPoint.y);
+
+            if (terrain == null)
+            {
+                isBlocked = true;
+                return isBlocked;
+            }
+
+            UnitImpassableTerrain impassableTerrain = ImpassableTerrains().Find(t => t.BlockedTerrainType == terrain.GetType());
+
+            // If terrain is impassable, mark it as impassable
+            if (impassableTerrain != null)
+            {
+                // Block the terrain
+                if(impassableTerrain.StartBlockRange == 0)
+                {
+                    SetTerrainIndicator(terrainPoint, TerrainIndicator.AttackingArea);
+                    isBlocked = true;
+                }
+
+                // Add blocked terrain
+                BaseTerrain unitCurrentTerrain = unit.TerrainController.Terrain;
+                Vector2 unitCurrentPos = new Vector2(unitCurrentTerrain.XPos, unitCurrentTerrain.YPos);
+
+                if(unitCurrentPos.x == terrainPoint.x)
+                {
+                    for(int i = 1 + impassableTerrain.StartBlockRange; i <= unit.MovementSpace; i++)
+                    {
+                        if(unitCurrentPos.y < terrainPoint.y)
+                        {
+                            // Add to up
+                            unit.BlockedTerrain.Add(new Vector2(
+                                unitCurrentPos.x, unitCurrentPos.y + i));
+                        }
+                        else if(unitCurrentPos.y > terrainPoint.y)
+                        {
+                            // Add to bottom
+                            unit.BlockedTerrain.Add(new Vector2(
+                                unitCurrentPos.x, unitCurrentPos.y - i));
+                        }
+                    }
+                }
+                else if(unitCurrentPos.y == terrainPoint.y)
+                {
+                    for (int i = 1 + impassableTerrain.StartBlockRange; i <= unit.MovementSpace; i++)
+                    {
+                        if (unitCurrentPos.x < terrainPoint.x)
+                        {
+                            // Add to right
+                            unit.BlockedTerrain.Add(new Vector2(
+                                unitCurrentPos.x + i, unitCurrentPos.y));
+                        }
+                        else if (unitCurrentPos.x > terrainPoint.x)
+                        {
+                            // Add to left
+                            unit.BlockedTerrain.Add(new Vector2(
+                                unitCurrentPos.x - i, unitCurrentPos.y));
+                        }
+                    }
+                }
+            }
+
+            return isBlocked;
         }
 
         private void SetUnitColor()
@@ -240,7 +312,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                 unit.MovementSpace
             );
 
-            SetTerrainAsAttackArea(attackingTerrainPoints);
+            //SetTerrainAsAttackArea(attackingTerrainPoints);
             SetTerrainAsMovementArea(movementTerrainPoints);
         }
 

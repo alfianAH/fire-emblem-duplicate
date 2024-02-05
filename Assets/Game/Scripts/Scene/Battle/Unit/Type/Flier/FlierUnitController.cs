@@ -11,10 +11,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Type.Flier
             unit.SetMovementSpace(2);
         }
 
-        protected override List<System.Type> ImpassableTerrains()
+        protected override List<UnitImpassableTerrain> ImpassableTerrains()
         {
-            List<System.Type> impassableTerrains = base.ImpassableTerrains();
-            impassableTerrains.Add(typeof(RuinTerrainController));
+            List<UnitImpassableTerrain> impassableTerrains = base.ImpassableTerrains();
+            impassableTerrains.Add(new UnitImpassableTerrain(typeof(RuinTerrainController)));
 
             return impassableTerrains;
         }
