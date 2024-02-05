@@ -12,19 +12,32 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
     {
         [SerializeField] private Transform _playerUnitParent, _enemyUnitTransform;
         [SerializeField] private Color _playerUnitColor, _enemyUnitColor;
+        private UnitPool _unitPool;
+
+        public UnitPool UnitPool => _unitPool;
+
+        private void Awake()
+        {
+            _unitPool = GetComponent<UnitPool>();
+        }
 
         public void MakePlayerUnit(MakePlayerUnitMessage message)
         {
-            MakeUnit(message.UnitDatas, _playerUnitParent, _playerUnitColor);
+            List<BaseUnitController> units = MakeUnit(message.UnitDatas, _playerUnitParent, _playerUnitColor);
+            _unitPool.AddPlayerUnit(units);
         }
 
         public void MakeEnemyUnit(MakeEnemyUnitMessage message)
         {
-            MakeUnit(message.UnitDatas, _enemyUnitTransform, _enemyUnitColor);
+            List<BaseUnitController> units = MakeUnit(message.UnitDatas, _enemyUnitTransform, _enemyUnitColor);
+            _unitPool.AddEnemyUnit(units);
         }
 
-        private void MakeUnit(List<StageUnitData> unitDatas, Transform unitParent, Color unitColor)
+        private List<BaseUnitController> MakeUnit(List<StageUnitData> unitDatas, 
+            Transform unitParent, Color unitColor)
         {
+            List<BaseUnitController> units = new List<BaseUnitController>();
+
             foreach (StageUnitData unitData in unitDatas)
             {
                 BaseUnitController unitPrefab = Resources.Load<BaseUnitController>(unitData.UnitPrefab);
@@ -42,7 +55,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
                 duplicateUnit.Unit.SetOriginTerrain(terrain);
                 duplicateUnit.Unit.SetTerrain(terrain);
                 duplicateUnit.SetupUnit();
+
+                units.Add(duplicateUnit);
             }
+
+            return units;
         }
     }
 }
