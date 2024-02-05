@@ -52,7 +52,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
         private void SetIndicatorActive(bool isActive)
         {
             _indicatorSpriteRenderer.gameObject.SetActive(isActive);
-            _baseTerrain.SetCanBeUsed(isActive);
+            // Set terrain to cant be used if terrain indicator is not active
+            if(!isActive) 
+                _baseTerrain.SetCanBeUsed(isActive);
         }
 
         private void SetTerrainIndicator(TerrainIndicator newIndicator)
@@ -63,6 +65,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
             // Apply to the renderer
             _indicatorSpriteRenderer.sprite = indicatorData.indicatorSprite;
             _indicatorSpriteRenderer.color = indicatorData.indicatorColor;
+
+            // Set terrain to can be used if terrain indicator is blue
+            if (newIndicator == TerrainIndicator.MovementArea)
+                _baseTerrain.SetCanBeUsed(true);
         }
     }
 }

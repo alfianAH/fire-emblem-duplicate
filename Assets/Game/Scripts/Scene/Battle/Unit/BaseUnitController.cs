@@ -50,8 +50,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         public void Move()
         {
-            transform.position = unit.TerrainController.transform.position;
-            /*if (unit.TerrainController.Terrain.CanBeUsed)
+            if (unit.TerrainController.Terrain.CanBeUsed)
             {
                 transform.position = unit.TerrainController.transform.position;
             }
@@ -59,12 +58,12 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             {
                 if(unit.OriginTerrainController == null) return;
                 transform.position = unit.OriginTerrainController.transform.position;
-            }*/
+            }
         }
 
         public void OnUnitClick(OnClickUnitMessage message)
         {
-            if (unit.MovementSpace == 0) return;
+            if (message.ClickedUnit != this || unit.MovementSpace == 0) return;
 
             switch (unit.UnitPhase)
             {
@@ -83,6 +82,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
                 case UnitPhase.ConfirmOnClick:
                     unit.SetUnitPhase(UnitPhase.Immovable);
+                    Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
                     Messenger.Default.Publish(new DeactivateTerrainIndicatorMessage());
                     break;
 
@@ -117,10 +117,12 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         public void MoveUnitOnClickedTerrain(OnClickTerrainMessage message)
         {
+            if (StageController.Instance.CurrentUnitOnClick != this ||
+                !message.TerrainController.Terrain.CanBeUsed) return;
+
             unit.SetTerrain(message.TerrainController);
             unit.SetUnitPhase(UnitPhase.ConfirmOnClick);
             Move();
-            Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
         }
 
         public virtual void SetupUnit()

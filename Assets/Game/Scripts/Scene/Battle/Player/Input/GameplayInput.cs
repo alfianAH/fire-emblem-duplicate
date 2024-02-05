@@ -2,6 +2,7 @@ using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Stage;
 using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
 using FireEmblemDuplicate.Scene.Battle.Terrain;
+using FireEmblemDuplicate.Scene.Battle.Unit;
 using SuperMaxim.Messaging;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,7 +23,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
                 GameObject selectedObject = hit2D.collider.gameObject;
                 if (selectedObject.CompareTag("Unit"))
                 {
-                    Messenger.Default.Publish(new OnClickUnitMessage());
+                    BaseUnitController selectedUnit = selectedObject.GetComponent<BaseUnitController>();
+                    Messenger.Default.Publish(new OnClickUnitMessage(selectedUnit));
                 }
                 else if (selectedObject.CompareTag("Terrain") && 
                     StageController.Instance.InPhase == InPhaseEnum.OnClickUnit)
