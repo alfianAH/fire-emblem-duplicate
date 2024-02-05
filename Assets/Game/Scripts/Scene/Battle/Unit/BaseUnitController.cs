@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using SuperMaxim.Messaging;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Enum;
 using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
+using System;
+using FireEmblemDuplicate.Scene.Battle.Terrain.Pool;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
@@ -57,7 +59,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             else
             {
                 if(unit.OriginTerrainController == null) return;
+                
+                // Set the terrain back to origin
                 transform.position = unit.OriginTerrainController.transform.position;
+                unit.SetTerrain(unit.OriginTerrainController);
             }
         }
 
@@ -81,7 +86,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     break;
 
                 case UnitPhase.ConfirmOnClick:
-                    unit.SetUnitPhase(UnitPhase.Immovable);
+                    // NOTE: CHANGE IT TO IMMOVABLE. THIS IS JUST FOR DEBUG
+                    unit.SetUnitPhase(UnitPhase.Idle);
                     Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
                     Messenger.Default.Publish(new DeactivateTerrainIndicatorMessage());
                     break;
@@ -93,7 +99,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         public void OnStartDragUnit(OnStartDragUnitMessage message)
         {
-            if (message.SelectedObject != gameObject) return;
+            if (message.SelectedObject != gameObject || 
+                unit.UnitPhase == UnitPhase.Immovable) return;
+
             _dragUnitCoroutine = StartCoroutine(DragUpdate(message.SelectedObject, message.PositionValue));
             unit.SetUnitPhase(UnitPhase.OnDrag);
         }
@@ -108,7 +116,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
             // If on dragging and the terrain is the same on end drag, unit can still move
             if (unit.TerrainController != unit.OriginTerrainController)
-                unit.SetUnitPhase(UnitPhase.Immovable);
+                unit.SetUnitPhase(UnitPhase.Idle); // NOTE: CHANGE IT TO IMMOVABLE. THIS IS JUST FOR DEBUG
             else
                 unit.SetUnitPhase(UnitPhase.Idle);
 
@@ -156,6 +164,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             unit.SetTerrain(terrainController);
         }
 
+        protected virtual List<System.Type> ImpassableTerrains()
+        {
+            return new List<System.Type>();
+        }
+
         /// <summary>
         /// Publish message to terrain which terrain that available to be used to move around
         /// </summary>
@@ -166,14 +179,22 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             {
                 foreach (Vector2 terrainPoint in terrainPoints)
                 {
+                    // Check terrain
+                    BaseTerrainController terrain = TerrainPoolController.Instance.TerrainPool.Find(
+                        t => t.Terrain.XPos == terrainPoint.x && t.Terrain.YPos == terrainPoint.y);
+
+                    if (terrain == null) continue;
+
+                    // If terrain is impassable, mark it as impassable
+                    if (ImpassableTerrains().Contains(terrain.GetType()))
+                    {
+                        SetTerrainIndicator(terrainPoint, TerrainIndicator.Impassable);
+                        continue;
+                    }
+
                     SetTerrainIndicator(terrainPoint, TerrainIndicator.MovementArea);
                 }
             }
-        }
-
-        private void SetUnitColor()
-        {
-            _spriteRenderer.color = unit.UnitColor;
         }
 
         private void SetTerrainAsAttackArea(List<Vector2> terrainPoints)
@@ -187,10 +208,15 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             }
         }
 
-        private void SetTerrainIndicator(Vector2 terrainPoint, TerrainIndicator indicator)
+        protected void SetTerrainIndicator(Vector2 terrainPoint, TerrainIndicator indicator)
         {
             Messenger.Default.Publish(new ChangeTerrainIndicatorMessage(
                 (int)terrainPoint.x, (int)terrainPoint.y, indicator));
+        }
+
+        private void SetUnitColor()
+        {
+            _spriteRenderer.color = unit.UnitColor;
         }
 
         private void SetUnitTypeSprite()

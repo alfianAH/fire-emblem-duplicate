@@ -6,5 +6,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain.Enum
         MovementArea,
         Fight,
         AllyOnMovementArea,
+        Impassable,
     }
 }
