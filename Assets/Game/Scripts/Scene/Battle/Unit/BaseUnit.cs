@@ -11,7 +11,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         [SerializeField] private Sprite _unitTypeSprite;
         [SerializeField] private UnitPhase _unitPhase = UnitPhase.Idle;
         [SerializeField] private WeaponController _weaponController;
-
+        
         public Color UnitColor { get; private set; }
         public Sprite UnitTypeSprite => _unitTypeSprite;
         public UnitPhase UnitPhase => _unitPhase;

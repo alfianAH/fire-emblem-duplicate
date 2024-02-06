@@ -92,7 +92,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     // NOTE: CHANGE IT TO IMMOVABLE. THIS IS JUST FOR DEBUG
                     unit.SetUnitPhase(UnitPhase.Idle);
                     Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
-                    Messenger.Default.Publish(new DeactivateTerrainIndicatorMessage());
+                    Messenger.Default.Publish(new DeactivateAllTerrainIndicatorMessage());
                     break;
 
                 default: break;
@@ -123,7 +123,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             else
                 unit.SetUnitPhase(UnitPhase.Idle);
 
-            Messenger.Default.Publish(new DeactivateTerrainIndicatorMessage());
+            Messenger.Default.Publish(new DeactivateAllTerrainIndicatorMessage());
         }
 
         public void MoveUnitOnClickedTerrain(OnClickTerrainMessage message)
@@ -173,9 +173,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         }
 
         /// <summary>
-        /// Publish message to terrain which terrain that available to be used to move around
+        /// Check for blocked terrain for each unit
         /// </summary>
         /// <param name="terrainPoints"></param>
+        /// <returns>Movement area</returns>
         private List<Vector2> SetTerrainAsMovementArea(List<Vector2> terrainPoints)
         {
             List<Vector2> movementArea = new List<Vector2>();
@@ -188,6 +189,50 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
                     SetTerrainIndicator(terrainPoint, TerrainIndicator.MovementArea);
                     movementArea.Add(terrainPoint);
+                }
+            }
+
+            return movementArea;
+        }
+
+        /// <summary>
+        /// Publish message to terrain which terrain that available to be used to move around
+        /// </summary>
+        /// <param name="terrainPoints"></param>
+        /// <returns>Movement area</returns>
+        private List<Vector2> CheckTerrainMovementArea(List<Vector2> terrainPoints)
+        {
+            List<Vector2> movementArea = new List<Vector2>(terrainPoints);
+            
+            if (unit.UnitPhase == UnitPhase.OnClick)
+            {
+                foreach(Vector2 terrainPoint in terrainPoints)
+                {
+                    // Check left
+                    BaseTerrainController leftTerrain = TerrainPoolController.Instance.TerrainPool.Find(
+                        t => t.Terrain.XPos == terrainPoint.x - 1 && t.Terrain.YPos == terrainPoint.y);
+                    // Check up
+                    BaseTerrainController upTerrain = TerrainPoolController.Instance.TerrainPool.Find(
+                        t => t.Terrain.XPos == terrainPoint.x && t.Terrain.YPos == terrainPoint.y + 1);
+                    // Check right
+                    BaseTerrainController rightTerrain = TerrainPoolController.Instance.TerrainPool.Find(
+                        t => t.Terrain.XPos == terrainPoint.x + 1 && t.Terrain.YPos == terrainPoint.y);
+                    // Check down
+                    BaseTerrainController downTerrain = TerrainPoolController.Instance.TerrainPool.Find(
+                        t => t.Terrain.XPos == terrainPoint.x && t.Terrain.YPos == terrainPoint.y - 1);
+
+                    // If one side can be used, continue
+                    bool leftTerrainBool = leftTerrain != null && leftTerrain.Terrain.CanBeUsed;
+                    bool upTerrainBool = upTerrain != null && upTerrain.Terrain.CanBeUsed;
+                    bool rightTerrainBool = rightTerrain != null && rightTerrain.Terrain.CanBeUsed;
+                    bool downTerrainBool = downTerrain != null && downTerrain.Terrain.CanBeUsed;
+
+                    if (leftTerrainBool || upTerrainBool || rightTerrainBool || downTerrainBool)
+                        continue;
+
+                    // If no side can be used, remove from movement
+                    movementArea.Remove(terrainPoint);
+                    Messenger.Default.Publish(new DeactivateTerrainIndicatorMessage((int)terrainPoint.x, (int)terrainPoint.y));
                 }
             }
 
@@ -346,6 +391,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             );
 
             movementTerrainPoints = SetTerrainAsMovementArea(movementTerrainPoints);
+            movementTerrainPoints = CheckTerrainMovementArea(movementTerrainPoints);
             SetTerrainAsAttackArea(movementTerrainPoints);
         }
 

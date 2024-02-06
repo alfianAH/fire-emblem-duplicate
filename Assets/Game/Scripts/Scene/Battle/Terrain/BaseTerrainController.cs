@@ -30,8 +30,17 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
             SetIndicatorActive(true);
         }
 
+        public void DeactivateAllTerrainIndicator(DeactivateAllTerrainIndicatorMessage message)
+        {
+            SetIndicatorActive(false);
+        }
+
         public void DeactivateTerrainIndicator(DeactivateTerrainIndicatorMessage message)
         {
+            if (message.XPos != _baseTerrain.XPos ||
+                message.YPos != _baseTerrain.YPos)
+                return;
+
             SetIndicatorActive(false);
         }
 

@@ -9,12 +9,14 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
         public override void Subscribe()
         {
             Messenger.Default.Subscribe<ChangeTerrainIndicatorMessage>(controller.ChangeTerrainIndicator);
+            Messenger.Default.Subscribe<DeactivateAllTerrainIndicatorMessage>(controller.DeactivateAllTerrainIndicator);
             Messenger.Default.Subscribe<DeactivateTerrainIndicatorMessage>(controller.DeactivateTerrainIndicator);
         }
 
         public override void Unsubscribe()
         {
             Messenger.Default.Unsubscribe<ChangeTerrainIndicatorMessage>(controller.ChangeTerrainIndicator);
+            Messenger.Default.Unsubscribe<DeactivateAllTerrainIndicatorMessage>(controller.DeactivateAllTerrainIndicator);
             Messenger.Default.Unsubscribe<DeactivateTerrainIndicatorMessage>(controller.DeactivateTerrainIndicator);
         }
     }
