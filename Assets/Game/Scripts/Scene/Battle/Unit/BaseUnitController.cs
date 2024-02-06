@@ -75,6 +75,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         {
             if (message.ClickedUnit != this || unit.MovementSpace == 0) return;
 
+            Messenger.Default.Publish(new SetCurrentUnitOnClickMessage(this));
+
             switch (unit.UnitPhase)
             {
                 case UnitPhase.Idle:
@@ -95,6 +97,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     unit.SetUnitPhase(UnitPhase.Idle);
                     Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
                     Messenger.Default.Publish(new DeactivateAllTerrainIndicatorMessage());
+                    Messenger.Default.Publish(new ChangeCurrentUnitOnClickMessage(null));
                     break;
 
                 default: break;
@@ -121,9 +124,15 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
             // If on dragging and the terrain is the same on end drag, unit can still move
             if (unit.TerrainController != unit.OriginTerrainController)
-                unit.SetUnitPhase(UnitPhase.Idle); // NOTE: CHANGE IT TO IMMOVABLE. THIS IS JUST FOR DEBUG
-            else
+            {
+                // NOTE: CHANGE IT TO IMMOVABLE. THIS IS JUST FOR DEBUG
                 unit.SetUnitPhase(UnitPhase.Idle);
+                Messenger.Default.Publish(new ChangeCurrentUnitOnClickMessage(null));
+            }
+            else
+            {
+                unit.SetUnitPhase(UnitPhase.Idle);
+            }
 
             Messenger.Default.Publish(new DeactivateAllTerrainIndicatorMessage());
         }
