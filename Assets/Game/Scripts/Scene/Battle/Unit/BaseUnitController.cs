@@ -128,7 +128,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         public void MoveUnitOnClickedTerrain(OnClickTerrainMessage message)
         {
-            if (StageController.Instance.CurrentUnitOnClick != this ||
+            if (_stageController.Stage.CurrentUnitOnClick != this ||
                 !message.TerrainController.Terrain.CanBeUsed) return;
 
             unit.SetTerrain(message.TerrainController);

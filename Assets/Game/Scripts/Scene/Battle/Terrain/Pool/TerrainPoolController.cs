@@ -38,9 +38,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain.Pool
             }
 
             Messenger.Default.Publish(new MakePlayerUnitMessage(
-                StageController.Instance.Data.PlayerUnits));
+                StageController.Instance.Stage.Data.PlayerUnits));
             Messenger.Default.Publish(new MakeEnemyUnitMessage(
-                StageController.Instance.Data.EnemyUnits));
+                StageController.Instance.Stage.Data.EnemyUnits));
         }
 
         private void LoadTerrainData()

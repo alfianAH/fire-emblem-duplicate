@@ -27,7 +27,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
                     Messenger.Default.Publish(new OnClickUnitMessage(selectedUnit));
                 }
                 else if (selectedObject.CompareTag("Terrain") && 
-                    StageController.Instance.InPhase == InPhaseEnum.OnClickUnit)
+                    StageController.Instance.Stage.InPhase == InPhaseEnum.OnClickUnit)
                 {
                     BaseTerrainController selectedTerrain = selectedObject.GetComponent<BaseTerrainController>();
                     Messenger.Default.Publish(new OnClickTerrainMessage(selectedTerrain));
