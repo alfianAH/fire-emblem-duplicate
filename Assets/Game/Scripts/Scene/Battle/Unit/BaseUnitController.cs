@@ -67,6 +67,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                 // Set the terrain back to origin
                 transform.position = unit.OriginTerrainController.transform.position;
                 unit.SetTerrain(unit.OriginTerrainController);
+                SetUnitOnTerrain(this);
             }
         }
 
@@ -132,7 +133,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             if (_stageController.Stage.CurrentUnitOnClick != this ||
                 !message.TerrainController.Terrain.CanBeUsed) return;
 
+            // Reset unit on terrain
+            SetUnitOnTerrain(null);
             unit.SetTerrain(message.TerrainController);
+            SetUnitOnTerrain(this);
             unit.SetUnitPhase(UnitPhase.ConfirmOnClick);
             Move();
         }
@@ -146,6 +150,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             unit.SetUnitSO(unitSO);
             unit.SetOriginTerrain(terrain);
             unit.SetTerrain(terrain);
+            SetUnitOnTerrain(this);
             unit.WeaponController.SetWeaponSO(weaponSO);
 
             // Set terrain on start because terrain is made on awake
@@ -174,7 +179,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                 return;
             }
 
+            SetUnitOnTerrain(null);
             unit.SetTerrain(terrainController);
+            SetUnitOnTerrain(this);
         }
 
         protected virtual List<UnitImpassableTerrain> ImpassableTerrains()
@@ -243,6 +250,37 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     // If no side can be used, remove from movement
                     movementArea.Remove(terrainPoint);
                     Messenger.Default.Publish(new DeactivateTerrainIndicatorMessage((int)terrainPoint.x, (int)terrainPoint.y));
+                }
+            }
+
+            return movementArea;
+        }
+
+        private List<Vector2> CheckAllyOnMovementArea(List<Vector2> terrainPoints)
+        {
+            List<Vector2> movementArea = new List<Vector2>(terrainPoints);
+
+            if (unit.UnitPhase == UnitPhase.OnClick)
+            {
+                foreach (Vector2 terrainPoint in terrainPoints)
+                {
+                    // Check terrain
+                    BaseTerrainController terrain = TerrainPoolController.Instance.TerrainPool.Find(
+                        t => t.Terrain.XPos == terrainPoint.x && t.Terrain.YPos == terrainPoint.y);
+
+                    if (terrain.Terrain.UnitOnTerrain == null) continue;
+                    if (terrain.Terrain.UnitOnTerrain == unit) continue;
+
+                    if(terrain.Terrain.UnitOnTerrain.Unit.BaseUnitSO.Side == unit.BaseUnitSO.Side)
+                    {
+                        SetTerrainIndicator(terrainPoint, TerrainIndicator.AllyOnMovementArea);
+                    }
+                    else
+                    {
+                        SetTerrainIndicator(terrainPoint, TerrainIndicator.Fight);
+                    }
+
+                    movementArea.Remove(terrainPoint);
                 }
             }
 
@@ -388,6 +426,12 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             _unitTypeSpriteRenderer.sprite = unit.UnitTypeSprite;
         }
 
+        private void SetUnitOnTerrain(BaseUnitController unitController)
+        {
+            Messenger.Default.Publish(new SetUnitOnTerrainMessage(
+                unit.TerrainController.Terrain.XPos, unit.TerrainController.Terrain.YPos, unitController));
+        }
+
         private void InspectUnitMovementArea()
         {
             if (unit.UnitPhase == UnitPhase.Immovable) return;
@@ -402,6 +446,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
             movementTerrainPoints = SetTerrainAsMovementArea(movementTerrainPoints);
             movementTerrainPoints = CheckTerrainMovementArea(movementTerrainPoints);
+            movementTerrainPoints = CheckAllyOnMovementArea(movementTerrainPoints);
             SetTerrainAsAttackArea(movementTerrainPoints);
         }
 

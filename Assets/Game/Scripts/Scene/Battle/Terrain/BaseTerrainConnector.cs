@@ -11,6 +11,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
             Messenger.Default.Subscribe<ChangeTerrainIndicatorMessage>(controller.ChangeTerrainIndicator);
             Messenger.Default.Subscribe<DeactivateAllTerrainIndicatorMessage>(controller.DeactivateAllTerrainIndicator);
             Messenger.Default.Subscribe<DeactivateTerrainIndicatorMessage>(controller.DeactivateTerrainIndicator);
+            Messenger.Default.Subscribe<SetUnitOnTerrainMessage>(controller.SetUnitOnTerrain);
         }
 
         public override void Unsubscribe()
@@ -18,6 +19,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
             Messenger.Default.Unsubscribe<ChangeTerrainIndicatorMessage>(controller.ChangeTerrainIndicator);
             Messenger.Default.Unsubscribe<DeactivateAllTerrainIndicatorMessage>(controller.DeactivateAllTerrainIndicator);
             Messenger.Default.Unsubscribe<DeactivateTerrainIndicatorMessage>(controller.DeactivateTerrainIndicator);
+            Messenger.Default.Unsubscribe<SetUnitOnTerrainMessage>(controller.SetUnitOnTerrain);
         }
     }
 }

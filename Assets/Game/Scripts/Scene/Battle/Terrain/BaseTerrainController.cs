@@ -1,5 +1,6 @@
 using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Enum;
+using FireEmblemDuplicate.Scene.Battle.Unit;
 using UnityEngine;
 
 namespace FireEmblemDuplicate.Scene.Battle.Terrain
@@ -11,12 +12,21 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
         
         private SpriteRenderer _spriteRenderer;
         private BaseTerrain _baseTerrain;
-
+        
         public BaseTerrain Terrain => _baseTerrain;
 
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        public void SetUnitOnTerrain(SetUnitOnTerrainMessage message)
+        {
+            if (message.XPos != _baseTerrain.XPos ||
+                message.YPos != _baseTerrain.YPos)
+                return;
+
+            _baseTerrain.SetUnitOnTerrain(message.Unit);
         }
 
         public void ChangeTerrainIndicator(ChangeTerrainIndicatorMessage message)
@@ -25,8 +35,23 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
                 message.YPos != _baseTerrain.YPos)
                 return;
 
-            if(!_baseTerrain.CanBeUsed)
-                SetTerrainIndicator(message.Indicator);
+            switch (message.Indicator)
+            {
+                case TerrainIndicator.AttackingArea:
+                    if (!_indicatorSpriteRenderer.gameObject.activeInHierarchy)
+                        SetTerrainIndicator(message.Indicator);
+                    break;
+
+                case TerrainIndicator.MovementArea:
+                case TerrainIndicator.Fight:
+                case TerrainIndicator.AllyOnMovementArea:
+                    SetTerrainIndicator(message.Indicator);
+                    break;
+
+                default:
+                    break;
+            }
+
             SetIndicatorActive(true);
         }
 
@@ -77,8 +102,20 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
             _indicatorSpriteRenderer.color = indicatorData.indicatorColor;
 
             // Set terrain to can be used if terrain indicator is blue
-            if (newIndicator == TerrainIndicator.MovementArea)
-                _baseTerrain.SetCanBeUsed(true);
+            switch (newIndicator)
+            {
+                case TerrainIndicator.MovementArea:
+                    _baseTerrain.SetCanBeUsed(true);
+                    break;
+
+                case TerrainIndicator.AttackingArea:
+                case TerrainIndicator.Fight:
+                case TerrainIndicator.AllyOnMovementArea:
+                    _baseTerrain.SetCanBeUsed(false);
+                    break;
+
+                default: break;
+            }
         }
     }
 }
