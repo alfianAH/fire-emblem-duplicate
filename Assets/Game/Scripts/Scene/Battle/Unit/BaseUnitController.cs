@@ -256,6 +256,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             return movementArea;
         }
 
+        /// <summary>
+        /// Check ally or enemy on movement area and mark the indicator
+        /// </summary>
+        /// <param name="terrainPoints"></param>
+        /// <returns>Movement area</returns>
         private List<Vector2> CheckAllyOnMovementArea(List<Vector2> terrainPoints)
         {
             List<Vector2> movementArea = new List<Vector2>(terrainPoints);
@@ -268,6 +273,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     BaseTerrainController terrain = TerrainPoolController.Instance.TerrainPool.Find(
                         t => t.Terrain.XPos == terrainPoint.x && t.Terrain.YPos == terrainPoint.y);
 
+                    if (terrain == null) continue;
                     if (terrain.Terrain.UnitOnTerrain == null) continue;
                     if (terrain.Terrain.UnitOnTerrain == unit) continue;
 
@@ -287,50 +293,84 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             return movementArea;
         }
 
-        private void SetTerrainAsAttackArea(List<Vector2> terrainPoints)
+        /// <summary>
+        /// Set terrain as attacking area
+        /// </summary>
+        /// <param name="terrainPoints"></param>
+        /// <returns>Attacking area points</returns>
+        private List<Vector2> SetTerrainAsAttackArea(List<Vector2> terrainPoints)
         {
+            List<Vector2> attackingArea = new List<Vector2>();
+
             if (unit.UnitPhase == UnitPhase.OnClick)
             {
                 foreach (Vector2 terrainPoint in terrainPoints)
                 {
                     // Apply to all side
                     // Up side
-                    SetTerrainIndicator(
-                        new Vector2(
-                            terrainPoint.x, 
-                            terrainPoint.y + unit.WeaponController.WeaponSO.Range
-                        ),
-                        TerrainIndicator.AttackingArea
-                    );
+                    Vector2 upSide = new Vector2(
+                        terrainPoint.x,
+                        terrainPoint.y + unit.WeaponController.WeaponSO.Range);
+                    SetTerrainIndicator(upSide, TerrainIndicator.AttackingArea);
+                    attackingArea.Add(upSide);
 
                     // Right side
-                    SetTerrainIndicator(
-                        new Vector2(
-                            terrainPoint.x + unit.WeaponController.WeaponSO.Range,
-                            terrainPoint.y
-                        ),
-                        TerrainIndicator.AttackingArea
-                    );
+                    Vector2 rightSide = new Vector2(
+                        terrainPoint.x + unit.WeaponController.WeaponSO.Range,
+                        terrainPoint.y);
+                    SetTerrainIndicator(rightSide, TerrainIndicator.AttackingArea);
+                    attackingArea.Add(rightSide);
 
                     // Down side
-                    SetTerrainIndicator(
-                        new Vector2(
-                            terrainPoint.x,
-                            terrainPoint.y - unit.WeaponController.WeaponSO.Range
-                        ),
-                        TerrainIndicator.AttackingArea
-                    );
+                    Vector2 downSide = new Vector2(
+                        terrainPoint.x,
+                        terrainPoint.y - unit.WeaponController.WeaponSO.Range);
+                    SetTerrainIndicator(downSide, TerrainIndicator.AttackingArea);
+                    attackingArea.Add(downSide);
 
                     // Left side
-                    SetTerrainIndicator(
-                        new Vector2(
-                            terrainPoint.x - unit.WeaponController.WeaponSO.Range,
-                            terrainPoint.y
-                        ),
-                        TerrainIndicator.AttackingArea
-                    );
+                    Vector2 leftSide = new Vector2(
+                        terrainPoint.x - unit.WeaponController.WeaponSO.Range,
+                        terrainPoint.y);
+                    SetTerrainIndicator(leftSide, TerrainIndicator.AttackingArea);
+                    attackingArea.Add(leftSide);
                 }
             }
+
+            return attackingArea;
+        }
+
+        /// <summary>
+        /// Check enemy on attacking area and mark the indicator to fight
+        /// </summary>
+        /// <param name="terrainPoints"></param>
+        /// <returns>Attacking area points</returns>
+        private List<Vector2> CheckEnemyOnAttackingArea(List<Vector2> terrainPoints)
+        {
+            List<Vector2> attackingArea = new List<Vector2>(terrainPoints);
+
+            if (unit.UnitPhase == UnitPhase.OnClick)
+            {
+                foreach (Vector2 terrainPoint in terrainPoints)
+                {
+                    // Check terrain
+                    BaseTerrainController terrain = TerrainPoolController.Instance.TerrainPool.Find(
+                        t => t.Terrain.XPos == terrainPoint.x && t.Terrain.YPos == terrainPoint.y);
+
+                    if (terrain == null) continue;
+                    if (terrain.Terrain.UnitOnTerrain == null) continue;
+                    if (terrain.Terrain.UnitOnTerrain == unit) continue;
+
+                    if (terrain.Terrain.UnitOnTerrain.Unit.BaseUnitSO.Side != unit.BaseUnitSO.Side)
+                    {
+                        SetTerrainIndicator(terrainPoint, TerrainIndicator.Fight);
+                    }
+
+                    attackingArea.Remove(terrainPoint);
+                }
+            }
+
+            return attackingArea;
         }
 
         protected void SetTerrainIndicator(Vector2 terrainPoint, TerrainIndicator indicator)
@@ -439,15 +479,16 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             int currentXPos = unit.TerrainController.Terrain.XPos;
             int currentYPos = unit.TerrainController.Terrain.YPos;
 
-            List<Vector2> movementTerrainPoints = RhombusPoints.GeneratePointsInsideRhombus(
+            List<Vector2> movementAreaPoints = RhombusPoints.GeneratePointsInsideRhombus(
                 new Vector2(currentXPos, currentYPos), 
                 unit.MovementSpace
             );
 
-            movementTerrainPoints = SetTerrainAsMovementArea(movementTerrainPoints);
-            movementTerrainPoints = CheckTerrainMovementArea(movementTerrainPoints);
-            movementTerrainPoints = CheckAllyOnMovementArea(movementTerrainPoints);
-            SetTerrainAsAttackArea(movementTerrainPoints);
+            movementAreaPoints = SetTerrainAsMovementArea(movementAreaPoints);
+            movementAreaPoints = CheckTerrainMovementArea(movementAreaPoints);
+            movementAreaPoints = CheckAllyOnMovementArea(movementAreaPoints);
+            List<Vector2> attackingAreaPoints = SetTerrainAsAttackArea(movementAreaPoints);
+            CheckEnemyOnAttackingArea(attackingAreaPoints);
         }
 
         /// <summary>
