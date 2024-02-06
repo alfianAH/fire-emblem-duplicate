@@ -77,6 +77,43 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
             Messenger.Default.Publish(new SetCurrentUnitOnClickMessage(this));
 
+            /*
+             * rule ketika sudah klik 1 unit
+             * 1. klik unit lain, unit itu tidak akan inspect movement area
+             * 2. klik musuh, tidak akan ada efeknya jika tidak untuk bertarung
+             * 3. klik musuh ketika sudah berada dalam movement area untuk bertarung
+             */
+            BaseUnitController unitOnClick = _stageController.Stage.CurrentUnitOnClick;
+            if (unitOnClick != this && unitOnClick != null)
+            {
+                if (unitOnClick.Unit.BaseUnitSO.Side == unit.BaseUnitSO.Side) 
+                    return;
+                else
+                {
+
+                    if (unit.TerrainController.Terrain.Indicator != TerrainIndicator.Fight)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        Debug.Log("Gelud");
+                        switch (unit.UnitPhase)
+                        {
+                            case UnitPhase.Idle:
+                                unit.SetUnitPhase(UnitPhase.OnClick);
+                                break;
+
+                            case UnitPhase.OnClick:
+                                unit.SetUnitPhase(UnitPhase.OnBattle);
+                                //Move unit on click to battle position
+                                break;
+                        }
+                        return;
+                    }
+                }
+            }
+
             switch (unit.UnitPhase)
             {
                 case UnitPhase.Idle:

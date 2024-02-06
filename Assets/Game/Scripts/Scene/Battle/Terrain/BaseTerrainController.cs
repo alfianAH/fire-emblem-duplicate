@@ -1,6 +1,5 @@
 using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Enum;
-using FireEmblemDuplicate.Scene.Battle.Unit;
 using UnityEngine;
 
 namespace FireEmblemDuplicate.Scene.Battle.Terrain
@@ -88,8 +87,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
         {
             _indicatorSpriteRenderer.gameObject.SetActive(isActive);
             // Set terrain to cant be used if terrain indicator is not active
-            if(!isActive) 
+            if(!isActive)
+            {
                 _baseTerrain.SetCanBeUsed(isActive);
+                _baseTerrain.SetTerrainIndicator(TerrainIndicator.Idle);
+            }
         }
 
         private void SetTerrainIndicator(TerrainIndicator newIndicator)
@@ -100,6 +102,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
             // Apply to the renderer
             _indicatorSpriteRenderer.sprite = indicatorData.indicatorSprite;
             _indicatorSpriteRenderer.color = indicatorData.indicatorColor;
+            _baseTerrain.SetTerrainIndicator(newIndicator);
 
             // Set terrain to can be used if terrain indicator is blue
             switch (newIndicator)
