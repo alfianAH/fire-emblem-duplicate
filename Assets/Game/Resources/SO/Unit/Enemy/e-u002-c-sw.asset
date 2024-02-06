@@ -16,8 +16,9 @@ MonoBehaviour:
   _name: Xingqiu
   _affinity: 2
   _side: 1
-  _baseHp: 30
-  _baseAtk: 12
-  _baseDef: 4
-  _baseRes: 5
-  _baseLuk: 5
+  _baseUnitStats:
+    _baseHp: 25
+    _baseAtk: 12
+    _baseDef: 8
+    _baseRes: 8
+    _baseLuk: 5

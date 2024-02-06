@@ -16,8 +16,9 @@ MonoBehaviour:
   _name: Wawan
   _affinity: 1
   _side: 1
-  _baseHp: 20
-  _baseAtk: 18
-  _baseDef: 4
-  _baseRes: 4
-  _baseLuk: 5
+  _baseUnitStats:
+    _baseHp: 18
+    _baseAtk: 8
+    _baseDef: 6
+    _baseRes: 5
+    _baseLuk: 5

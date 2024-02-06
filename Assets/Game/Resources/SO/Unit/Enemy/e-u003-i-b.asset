@@ -16,8 +16,9 @@ MonoBehaviour:
   _name: Yoimiya
   _affinity: 0
   _side: 1
-  _baseHp: 20
-  _baseAtk: 15
-  _baseDef: 4
-  _baseRes: 4
-  _baseLuk: 5
+  _baseUnitStats:
+    _baseHp: 15
+    _baseAtk: 10
+    _baseDef: 5
+    _baseRes: 5
+    _baseLuk: 5

@@ -14,19 +14,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         [SerializeField] private UnitSide _side;
 
         [Header("Stats")]
-        [SerializeField, Tooltip("Unit Base HP")] private float _baseHp;
-        [SerializeField, Tooltip("Unit Base ATK")] private float _baseAtk;
-        [SerializeField, Tooltip("Unit Base DEF")] private float _baseDef;
-        [SerializeField, Tooltip("Unit Base RES")] private float _baseRes;
-        [SerializeField, Tooltip("Unit Base LUK")] private int _baseLuk;
+        [SerializeField, Tooltip("Unit Base HP")] private BaseUnitStats _baseUnitStats;
 
         public string Name => _name;
         public UnitSide Side => _side;
         public UnitAffinity Affinity => _affinity;
-        public float BaseHP => _baseHp;
-        public float BaseATK => _baseAtk;
-        public float BaseDEF => _baseDef;
-        public float BaseRES => _baseRes;
-        public float BaseLUK => _baseLuk;
+        public BaseUnitStats UnitStats => _baseUnitStats;
     }
 }
