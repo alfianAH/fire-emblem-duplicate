@@ -176,8 +176,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         /// Publish message to terrain which terrain that available to be used to move around
         /// </summary>
         /// <param name="terrainPoints"></param>
-        protected virtual void SetTerrainAsMovementArea(List<Vector2> terrainPoints)
+        private List<Vector2> SetTerrainAsMovementArea(List<Vector2> terrainPoints)
         {
+            List<Vector2> movementArea = new List<Vector2>();
+
             if (unit.UnitPhase == UnitPhase.OnClick)
             {
                 foreach (Vector2 terrainPoint in terrainPoints)
@@ -185,8 +187,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     if (BlockMovement(terrainPoint)) continue;
 
                     SetTerrainIndicator(terrainPoint, TerrainIndicator.MovementArea);
+                    movementArea.Add(terrainPoint);
                 }
             }
+
+            return movementArea;
         }
 
         private void SetTerrainAsAttackArea(List<Vector2> terrainPoints)
@@ -195,8 +200,42 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             {
                 foreach (Vector2 terrainPoint in terrainPoints)
                 {
-                    // NOTE: CEK APAKAH MASIH ADA ATTACK AREA SETELAH DIBLOCK TERRAIN
-                    SetTerrainIndicator(terrainPoint, TerrainIndicator.AttackingArea);
+                    // Apply to all side
+                    // Up side
+                    SetTerrainIndicator(
+                        new Vector2(
+                            terrainPoint.x, 
+                            terrainPoint.y + unit.WeaponController.WeaponSO.Range
+                        ),
+                        TerrainIndicator.AttackingArea
+                    );
+
+                    // Right side
+                    SetTerrainIndicator(
+                        new Vector2(
+                            terrainPoint.x + unit.WeaponController.WeaponSO.Range,
+                            terrainPoint.y
+                        ),
+                        TerrainIndicator.AttackingArea
+                    );
+
+                    // Down side
+                    SetTerrainIndicator(
+                        new Vector2(
+                            terrainPoint.x,
+                            terrainPoint.y - unit.WeaponController.WeaponSO.Range
+                        ),
+                        TerrainIndicator.AttackingArea
+                    );
+
+                    // Left side
+                    SetTerrainIndicator(
+                        new Vector2(
+                            terrainPoint.x - unit.WeaponController.WeaponSO.Range,
+                            terrainPoint.y
+                        ),
+                        TerrainIndicator.AttackingArea
+                    );
                 }
             }
         }
@@ -215,7 +254,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             if (unit.BlockedTerrain.Contains(terrainPoint))
             {
                 isBlocked = true;
-                SetTerrainIndicator(terrainPoint, TerrainIndicator.AttackingArea);
                 return isBlocked;
             }
 
@@ -237,7 +275,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                 // Block the terrain
                 if(impassableTerrain.StartBlockRange == 0)
                 {
-                    SetTerrainIndicator(terrainPoint, TerrainIndicator.AttackingArea);
                     isBlocked = true;
                 }
 
@@ -303,17 +340,13 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             int currentXPos = unit.TerrainController.Terrain.XPos;
             int currentYPos = unit.TerrainController.Terrain.YPos;
 
-            List<Vector2> attackingTerrainPoints = RhombusPoints.GeneratePointsInsideRhombus(
-                new Vector2(currentXPos, currentYPos),
-                unit.MovementSpace + unit.WeaponController.WeaponSO.Range
-            );
             List<Vector2> movementTerrainPoints = RhombusPoints.GeneratePointsInsideRhombus(
                 new Vector2(currentXPos, currentYPos), 
                 unit.MovementSpace
             );
 
-            //SetTerrainAsAttackArea(attackingTerrainPoints);
-            SetTerrainAsMovementArea(movementTerrainPoints);
+            movementTerrainPoints = SetTerrainAsMovementArea(movementTerrainPoints);
+            SetTerrainAsAttackArea(movementTerrainPoints);
         }
 
         /// <summary>

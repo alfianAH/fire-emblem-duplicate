@@ -25,7 +25,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
                 message.YPos != _baseTerrain.YPos)
                 return;
 
-            SetTerrainIndicator(message.Indicator);
+            if(!_baseTerrain.CanBeUsed)
+                SetTerrainIndicator(message.Indicator);
             SetIndicatorActive(true);
         }
 
