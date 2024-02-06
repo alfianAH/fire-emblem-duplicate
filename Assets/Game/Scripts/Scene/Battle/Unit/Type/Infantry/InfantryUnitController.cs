@@ -1,10 +1,8 @@
 using FireEmblemDuplicate.Scene.Battle.Terrain;
-using FireEmblemDuplicate.Scene.Battle.Terrain.Enum;
-using FireEmblemDuplicate.Scene.Battle.Terrain.Pool;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Type.Forest;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Type.Mountain;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Type.Ruin;
-using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
+using FireEmblemDuplicate.Scene.Battle.Weapon;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,9 +10,12 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Type.Infantry
 {
     public class InfantryUnitController : BaseUnitController
     {
-        public override void SetupUnit()
+        public override void SetupUnit(
+            Color unitColor, BaseUnitScriptableObject unitSO,
+            BaseTerrainController terrain,
+            WeaponScriptableObject weaponSO)
         {
-            base.SetupUnit();
+            base.SetupUnit(unitColor, unitSO, terrain, weaponSO);
             unit.SetMovementSpace(2);
         }
 

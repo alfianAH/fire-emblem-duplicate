@@ -1,13 +1,19 @@
+using FireEmblemDuplicate.Scene.Battle.Terrain;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Type.Ruin;
+using FireEmblemDuplicate.Scene.Battle.Weapon;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit.Type.Flier
 {
     public class FlierUnitController : BaseUnitController
     {
-        public override void SetupUnit()
+        public override void SetupUnit(
+            Color unitColor, BaseUnitScriptableObject unitSO,
+            BaseTerrainController terrain,
+            WeaponScriptableObject weaponSO)
         {
-            base.SetupUnit();
+            base.SetupUnit(unitColor, unitSO, terrain, weaponSO);
             unit.SetMovementSpace(2);
         }
 

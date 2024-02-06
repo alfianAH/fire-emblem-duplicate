@@ -49,12 +49,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
 
                 BaseUnitController duplicateUnit = Instantiate(unitPrefab, unitParent);
                 duplicateUnit.gameObject.name = unitSO.Name;
-                duplicateUnit.Unit.SetUnitColor(unitColor);
-                duplicateUnit.Unit.SetUnitSO(unitSO);
-                duplicateUnit.Unit.WeaponController.SetWeaponSO(weaponSO);
-                duplicateUnit.Unit.SetOriginTerrain(terrain);
-                duplicateUnit.Unit.SetTerrain(terrain);
-                duplicateUnit.SetupUnit();
+                duplicateUnit.SetupUnit(unitColor, unitSO, terrain, weaponSO);
 
                 units.Add(duplicateUnit);
             }

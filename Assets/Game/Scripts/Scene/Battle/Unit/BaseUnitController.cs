@@ -12,6 +12,7 @@ using FireEmblemDuplicate.Scene.Battle.Terrain.Enum;
 using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
 using System;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Pool;
+using FireEmblemDuplicate.Scene.Battle.Weapon;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
@@ -136,8 +137,17 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             Move();
         }
 
-        public virtual void SetupUnit()
+        public virtual void SetupUnit(
+            Color unitColor, BaseUnitScriptableObject unitSO,
+            BaseTerrainController terrain,
+            WeaponScriptableObject weaponSO)
         {
+            unit.SetUnitColor(unitColor);
+            unit.SetUnitSO(unitSO);
+            unit.SetOriginTerrain(terrain);
+            unit.SetTerrain(terrain);
+            unit.WeaponController.SetWeaponSO(weaponSO);
+
             // Set terrain on start because terrain is made on awake
             Move();
             SetUnitTypeSprite();
