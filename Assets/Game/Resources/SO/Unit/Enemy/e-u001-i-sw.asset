@@ -15,6 +15,7 @@ MonoBehaviour:
   _id: e-u001-i-sw
   _name: Bennet
   _affinity: 0
+  _side: 1
   _baseHp: 25
   _baseAtk: 10
   _baseDef: 5

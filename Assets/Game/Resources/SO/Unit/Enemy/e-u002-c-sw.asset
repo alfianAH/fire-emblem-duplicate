@@ -15,6 +15,7 @@ MonoBehaviour:
   _id: e-u002-c-sw
   _name: Xingqiu
   _affinity: 2
+  _side: 1
   _baseHp: 30
   _baseAtk: 12
   _baseDef: 4

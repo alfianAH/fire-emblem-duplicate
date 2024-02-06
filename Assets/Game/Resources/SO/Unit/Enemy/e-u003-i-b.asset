@@ -15,6 +15,7 @@ MonoBehaviour:
   _id: e-u003-i-b
   _name: Yoimiya
   _affinity: 0
+  _side: 1
   _baseHp: 20
   _baseAtk: 15
   _baseDef: 4

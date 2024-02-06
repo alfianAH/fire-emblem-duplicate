@@ -15,6 +15,7 @@ MonoBehaviour:
   _id: e-u004-f-st
   _name: Wawan
   _affinity: 1
+  _side: 1
   _baseHp: 20
   _baseAtk: 18
   _baseDef: 4
