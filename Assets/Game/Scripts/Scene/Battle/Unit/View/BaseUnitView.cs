@@ -33,10 +33,5 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
             _unitType.sprite = unit.UnitTypeSprite;
             _unitWeapon.sprite = unit.WeaponController.WeaponSO.WeaponSprite;
         }
-
-        public void UpdateCurrentHp()
-        {
-            _unitCurrentHp.text = 999.ToString();
-        }
     }
 }

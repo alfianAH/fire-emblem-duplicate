@@ -1682,7 +1682,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 918885013}
-  m_Father: {fileID: 780264595}
+  m_Father: {fileID: 546628591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2942,6 +2942,43 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &546628590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 546628591}
+  m_Layer: 5
+  m_Name: Battle System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &546628591
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546628590}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 273469427}
+  - {fileID: 1306846615}
+  m_Father: {fileID: 780264595}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &548332715
 GameObject:
   m_ObjectHideFlags: 0
@@ -3731,13 +3768,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 780264595}
+  - component: {fileID: 780264597}
+  - component: {fileID: 780264598}
   m_Layer: 5
   m_Name: Battle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &780264595
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3750,8 +3789,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 273469427}
-  - {fileID: 1306846615}
+  - {fileID: 546628591}
   m_Father: {fileID: 1593182609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3759,6 +3797,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &780264597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780264594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0479af8d47cd6446b5ad8df5cc146ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _battleSystemUi: {fileID: 546628590}
+  _damageAmount: {fileID: 895097463}
+  _allyName: {fileID: 2110794917}
+  _allyCurrentHp: {fileID: 2089538001}
+  _allyFullHp: {fileID: 1367929813}
+  _allyAtk: {fileID: 1474256429}
+  _allyDef: {fileID: 81961914}
+  _allyRes: {fileID: 185189376}
+  _allyLuk: {fileID: 788576016}
+  _allyUnitType: {fileID: 1795798236}
+  _allyWeapon: {fileID: 398473143}
+  _enemyName: {fileID: 998572809}
+  _enemyCurrentHp: {fileID: 78598440}
+  _enemyFullHp: {fileID: 2109339399}
+  _enemyAtk: {fileID: 333272660}
+  _enemyDef: {fileID: 556889431}
+  _enemyRes: {fileID: 922447649}
+  _enemyLuk: {fileID: 2089536909}
+  _enemyUnitType: {fileID: 1634121331}
+  _enemyWeapon: {fileID: 1577643956}
+--- !u!114 &780264598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780264594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce4a311c3f9ec084f895c2d1ddf232af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &788576014
 GameObject:
   m_ObjectHideFlags: 0
@@ -6411,7 +6493,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 691898591}
-  m_Father: {fileID: 780264595}
+  m_Father: {fileID: 546628591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

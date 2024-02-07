@@ -1,5 +1,7 @@
 using Croxxing.Utility;
 using FireEmblemDuplicate.Message;
+using FireEmblemDuplicate.Scene.Battle.Stage;
+using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
 using FireEmblemDuplicate.Scene.Battle.Terrain;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Pool;
 using FireEmblemDuplicate.Scene.Battle.Unit;
@@ -7,6 +9,7 @@ using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
 using FireEmblemDuplicate.Scene.Battle.Unit.Type.Flier;
 using FireEmblemDuplicate.Scene.Battle.Weapon.Enum;
 using SuperMaxim.Messaging;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,13 +24,13 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
             if(CheckAttackerInRange(message.Attacker, message.Defender))
             {
                 // Fight
-                BattleBegin(message.Attacker, message.Defender);
+                StartCoroutine(StartBattle(message.Attacker, message.Defender));
             }
             else
             {
                 // Publish message to move
                 MoveAttackerWithinRange(message.Attacker, message.Defender);
-                BattleBegin(message.Attacker, message.Defender);
+                StartCoroutine(StartBattle(message.Attacker, message.Defender));
             }
         }
 
@@ -120,7 +123,28 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
             return newInRangePoints;
         }
 
-        private void BattleBegin(BaseUnitController attacker, BaseUnitController defender)
+        private IEnumerator StartBattle(BaseUnitController attacker, BaseUnitController defender)
+        {
+            switch (StageController.Instance.Stage.Phase)
+            {
+                case StagePhase.PlayerPhase:
+                    Messenger.Default.Publish(new OnBattleBeginMessage(attacker, defender));
+                    break;
+                case StagePhase.EnemyPhase:
+                    Messenger.Default.Publish(new OnBattleBeginMessage(defender, attacker));
+                    break;
+            }
+
+            yield return new WaitForSeconds(1f);
+            float damageAmount = BattleBegin(attacker, defender);
+
+            Messenger.Default.Publish(new DecreaseHPMessage(defender, damageAmount));
+
+            yield return new WaitForSeconds(5f);
+            Messenger.Default.Publish(new OnBattleFinishMessage());
+        }
+
+        private float BattleBegin(BaseUnitController attacker, BaseUnitController defender)
         {
             WeaponType weaponType = attacker.Unit.WeaponController.WeaponSO.Type;
             float baseAttack = attacker.Unit.UnitStats.BaseATK;
@@ -151,8 +175,8 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
             {
                 damageAmount = baseAttack + damageBonus - defensiveAmount;
             }
-            
-            Messenger.Default.Publish(new DecreaseHPMessage(defender, damageAmount));
+
+            return Mathf.Round(damageAmount);
         }
 
         private float CalculateDamageBonus(BaseUnitController attacker, BaseUnitController defender)

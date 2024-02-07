@@ -84,6 +84,16 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             unit.SetUnitPhase(UnitPhase.OnBattle);
         }
 
+        public void OnBattleFinish(OnBattleFinishMessage message)
+        {
+            if (message.Attacker != this) return;
+
+            unit.SetUnitPhase(UnitPhase.Immovable);
+
+            Messenger.Default.Publish(new ChangeCurrentUnitOnClickMessage(null));
+            Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
+        }
+
         public void OnUnitClick(OnClickUnitMessage message)
         {
             if (message.ClickedUnit != this || unit.MovementSpace == 0) return;
@@ -130,10 +140,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                                 break;
 
                             case UnitPhase.OnClick:
-                                unit.SetUnitPhase(UnitPhase.OnBattle);
-
                                 // Move unit on click to battle position
                                 Messenger.Default.Publish(new StartBattleMessage(unitOnClick, this));
+                                Messenger.Default.Publish(new DeactivateAllTerrainIndicatorMessage());
                                 break;
                         }
                         return;
