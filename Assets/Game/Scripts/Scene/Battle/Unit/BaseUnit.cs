@@ -73,6 +73,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public void DecreaseHP(float amount)
         {
             UnitStats.BaseHP -= amount;
+
+            if (UnitStats.BaseHP < 0)
+                UnitStats.BaseHP = 0;
         }
 
         public void IncreaseHP(float amount)

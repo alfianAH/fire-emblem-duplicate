@@ -10,7 +10,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         [SerializeField, Tooltip("Unit Base ATK")] private float _baseAtk;
         [SerializeField, Tooltip("Unit Base DEF")] private float _baseDef;
         [SerializeField, Tooltip("Unit Base RES")] private float _baseRes;
-        [SerializeField, Tooltip("Unit Base LUK")] private int _baseLuk;
+        [SerializeField, Tooltip("Unit Base LUK"), Range(0f, 1f)] private float _baseLuk;
 
         public float BaseHP
         {

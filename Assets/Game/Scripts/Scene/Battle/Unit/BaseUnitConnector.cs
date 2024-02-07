@@ -13,6 +13,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             Messenger.Default.Subscribe<OnEndDragUnitMessage>(controller.OnEndDragUnit);
             Messenger.Default.Subscribe<OnClickTerrainMessage>(controller.MoveUnitOnClickedTerrain);
             Messenger.Default.Subscribe<MoveUnitIntoAttackPointMessage>(controller.MoveUnitIntoAttackPoint);
+            Messenger.Default.Subscribe<DecreaseHPMessage>(controller.DecreaseHP);
         }
 
         public override void Unsubscribe()
@@ -22,6 +23,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             Messenger.Default.Unsubscribe<OnEndDragUnitMessage>(controller.OnEndDragUnit);
             Messenger.Default.Unsubscribe<OnClickTerrainMessage>(controller.MoveUnitOnClickedTerrain);
             Messenger.Default.Unsubscribe<MoveUnitIntoAttackPointMessage>(controller.MoveUnitIntoAttackPoint);
+            Messenger.Default.Subscribe<DecreaseHPMessage>(controller.DecreaseHP);
         }
     }
 }

@@ -1,7 +1,11 @@
+using Croxxing.Utility;
 using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Terrain;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Pool;
 using FireEmblemDuplicate.Scene.Battle.Unit;
+using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
+using FireEmblemDuplicate.Scene.Battle.Unit.Type.Flier;
+using FireEmblemDuplicate.Scene.Battle.Weapon.Enum;
 using SuperMaxim.Messaging;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +21,13 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
             if(CheckAttackerInRange(message.Attacker, message.Defender))
             {
                 // Fight
-                Debug.Log("Yok gelud");
+                BattleBegin(message.Attacker, message.Defender);
             }
             else
             {
                 // Publish message to move
                 MoveAttackerWithinRange(message.Attacker, message.Defender);
+                BattleBegin(message.Attacker, message.Defender);
             }
         }
 
@@ -113,6 +118,113 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
             }
 
             return newInRangePoints;
+        }
+
+        private void BattleBegin(BaseUnitController attacker, BaseUnitController defender)
+        {
+            WeaponType weaponType = attacker.Unit.WeaponController.WeaponSO.Type;
+            float baseAttack = attacker.Unit.UnitStats.BaseATK;
+            float attackerLuk = attacker.Unit.UnitStats.BaseLUK;
+            float defensiveAmount = 0f;
+
+            switch(weaponType)
+            {
+                case WeaponType.Physical:
+                    defensiveAmount = defender.Unit.UnitStats.BaseDEF;
+                    break;
+
+                case WeaponType.Magical:
+                    defensiveAmount = defender.Unit.UnitStats.BaseRES;
+                    break;
+
+                default: break;
+            }
+
+            float damageBonus = CalculateDamageBonus(attacker, defender);
+            int randomNumber = CustomRandomizer.GetRandomValue(
+                new RandomSelection(0, 0, 1 - attackerLuk),
+                new RandomSelection(1, 1, attackerLuk)
+            );
+
+            float damageAmount = 0;
+            if(randomNumber == 1)
+            {
+                damageAmount = baseAttack + damageBonus - defensiveAmount;
+            }
+            
+            Messenger.Default.Publish(new DecreaseHPMessage(defender, damageAmount));
+        }
+
+        private float CalculateDamageBonus(BaseUnitController attacker, BaseUnitController defender)
+        {
+            float damageBonus = 0;
+            float baseAttack = attacker.Unit.UnitStats.BaseATK;
+
+            // Bow > Flier
+            if(attacker.Unit.WeaponController.WeaponSO.DamageRange == WeaponDamageRange.LongRange &&
+                defender.GetType() == typeof(FlierUnitController))
+            {
+                damageBonus += 0.2f * baseAttack;
+            }
+
+            // Affinity
+            UnitAffinity attackerAffinity = attacker.Unit.BaseUnitSO.Affinity;
+            UnitAffinity defenderAffinity = defender.Unit.BaseUnitSO.Affinity;
+
+            if(attackerAffinity != defenderAffinity)
+            {
+                switch (attackerAffinity)
+                {
+                    case UnitAffinity.Red:
+                        switch (defenderAffinity)
+                        {
+                            case UnitAffinity.Green:
+                                damageBonus += 0.2f * baseAttack;
+                                break;
+
+                            case UnitAffinity.Blue:
+                                damageBonus -= 0.2f * baseAttack;
+                                break;
+
+                            default: break;
+                        }
+                        break;
+
+                    case UnitAffinity.Green:
+                        switch (defenderAffinity)
+                        {
+                            case UnitAffinity.Red:
+                                damageBonus -= 0.2f * baseAttack;
+                                break;
+
+                            case UnitAffinity.Blue:
+                                damageBonus += 0.2f * baseAttack;
+                                break;
+
+                            default: break;
+                        }
+                        break;
+
+                    case UnitAffinity.Blue:
+                        switch (defenderAffinity)
+                        {
+                            case UnitAffinity.Red:
+                                damageBonus += 0.2f * baseAttack;
+                                break;
+
+                            case UnitAffinity.Green:
+                                damageBonus -= 0.2f * baseAttack;
+                                break;
+
+                            default: break;
+                        }
+                        break;
+
+                    default: break;
+                }
+            }
+
+            return damageBonus;
         }
     }
 }

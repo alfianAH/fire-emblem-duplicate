@@ -46,9 +46,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             CheckTerrain();
         }
 
-        public void Attack()
+        public void DecreaseHP(DecreaseHPMessage message)
         {
-            throw new System.NotImplementedException();
+            if (message.Defender != this) return;
+            unit.DecreaseHP(message.Amount);
         }
 
         public void Move()
@@ -122,7 +123,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                         return;
                     else
                     {
-                        Debug.Log("Gelud");
                         switch (unit.UnitPhase)
                         {
                             case UnitPhase.Idle:
