@@ -12,10 +12,30 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         [SerializeField, Tooltip("Unit Base RES")] private float _baseRes;
         [SerializeField, Tooltip("Unit Base LUK")] private int _baseLuk;
 
-        public float BaseHP => _baseHp;
-        public float BaseATK => _baseAtk;
-        public float BaseDEF => _baseDef;
-        public float BaseRES => _baseRes;
-        public float BaseLUK => _baseLuk;
+        public float BaseHP
+        {
+            set { _baseHp = value; }
+            get { return _baseHp; }
+        }
+        public float BaseATK
+        {
+            set { _baseAtk = value; }
+            get { return _baseAtk; }
+        }
+        public float BaseDEF
+        {
+            set { _baseDef = value; }
+            get { return _baseDef; }
+        }
+        public float BaseRES
+        {
+            set { _baseRes = value; }
+            get { return _baseRes; }
+        }
+        public float BaseLUK
+        {
+            set { _baseRes = value; }
+            get { return _baseRes; }
+        }
     }
 }

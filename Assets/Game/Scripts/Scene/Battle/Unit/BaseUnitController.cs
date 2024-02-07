@@ -71,11 +71,39 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             }
         }
 
+        public void MoveUnitIntoAttackPoint(MoveUnitIntoAttackPointMessage message)
+        {
+            if (message.Attacker != this) return;
+
+            SetUnitOnTerrain(null);
+            unit.SetTerrain(message.TerrainController);
+            SetUnitOnTerrain(this);
+            Move();
+
+            unit.SetUnitPhase(UnitPhase.OnBattle);
+        }
+
         public void OnUnitClick(OnClickUnitMessage message)
         {
             if (message.ClickedUnit != this || unit.MovementSpace == 0) return;
 
             Messenger.Default.Publish(new SetCurrentUnitOnClickMessage(this));
+
+            // If player click other unit side while not click any unit,
+            // return and dont do anything
+            if(_stageController.Stage.InPhase != InPhaseEnum.OnClickUnit)
+            {
+                switch (_stageController.Stage.Phase)
+                {
+                    case StagePhase.PlayerPhase:
+                        if (unit.BaseUnitSO.Side == UnitSide.Enemy) return;
+                        break;
+
+                    case StagePhase.EnemyPhase:
+                        if (unit.BaseUnitSO.Side == UnitSide.Player) return;
+                        break;
+                }
+            }
 
             /*
              * rule ketika sudah klik 1 unit
@@ -90,11 +118,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     return;
                 else
                 {
-
                     if (unit.TerrainController.Terrain.Indicator != TerrainIndicator.Fight)
-                    {
                         return;
-                    }
                     else
                     {
                         Debug.Log("Gelud");
@@ -106,7 +131,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
                             case UnitPhase.OnClick:
                                 unit.SetUnitPhase(UnitPhase.OnBattle);
-                                //Move unit on click to battle position
+
+                                // Move unit on click to battle position
+                                Messenger.Default.Publish(new StartBattleMessage(unitOnClick, this));
                                 break;
                         }
                         return;
@@ -194,6 +221,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         {
             unit.SetUnitColor(unitColor);
             unit.SetUnitSO(unitSO);
+            unit.SetUnitStats(unitSO.UnitStats);
             unit.SetOriginTerrain(terrain);
             unit.SetTerrain(terrain);
             SetUnitOnTerrain(this);

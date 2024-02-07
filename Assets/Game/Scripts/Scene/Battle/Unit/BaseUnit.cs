@@ -16,6 +16,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public Sprite UnitTypeSprite => _unitTypeSprite;
         public UnitPhase UnitPhase => _unitPhase;
         public WeaponController WeaponController => _weaponController;
+        public BaseUnitStats UnitStats { get; private set; }
         public BaseUnitScriptableObject BaseUnitSO { get; private set; }
         public BaseTerrainController OriginTerrainController { get; private set; }
         public BaseTerrainController TerrainController { get; private set; }
@@ -25,6 +26,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public void SetUnitColor(Color color)
         {
             UnitColor = color;
+        }
+
+        public void SetUnitStats(BaseUnitStats unitStats)
+        {
+            UnitStats = unitStats;
         }
 
         public void SetUnitSO(BaseUnitScriptableObject unit)
@@ -62,6 +68,21 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public void RemoveBlockedTerrain()
         {
             BlockedTerrain.Clear();
+        }
+
+        public void DecreaseHP(float amount)
+        {
+            UnitStats.BaseHP -= amount;
+        }
+
+        public void IncreaseHP(float amount)
+        {
+            UnitStats.BaseHP += amount;
+        }
+
+        public void IncreaseATK(float amount)
+        {
+            UnitStats.BaseATK += amount;
         }
     }
 }

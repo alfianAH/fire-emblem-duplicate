@@ -20,11 +20,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
         public void SetView(SetCurrentUnitOnClickMessage message)
         {
             BaseUnit unit = message.UnitController.Unit;
-            BaseUnitStats unitStats = unit.BaseUnitSO.UnitStats;
+            BaseUnitStats unitStats = unit.UnitStats;
             
             _unitName.text = unit.BaseUnitSO.Name;
-            _unitCurrentHp.text = 999.ToString();
-            _unitFullHp.text = $"/ {unitStats.BaseHP}";
+            _unitCurrentHp.text = unitStats.BaseHP.ToString();
+            _unitFullHp.text = $"/ {unit.BaseUnitSO.UnitStats.BaseHP}";
             _unitAtk.text = unitStats.BaseATK.ToString();
             _unitDef.text = unitStats.BaseDEF.ToString();
             _unitRes.text = unitStats.BaseRES.ToString();
