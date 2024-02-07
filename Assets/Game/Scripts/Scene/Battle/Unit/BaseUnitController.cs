@@ -352,34 +352,29 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             {
                 foreach (Vector2 terrainPoint in terrainPoints)
                 {
-                    // Apply to all side
-                    // Up side
-                    Vector2 upSide = new Vector2(
-                        terrainPoint.x,
-                        terrainPoint.y + unit.WeaponController.WeaponSO.Range);
-                    SetTerrainIndicator(upSide, TerrainIndicator.AttackingArea);
-                    attackingArea.Add(upSide);
+                    for(int i = 1; i <= unit.WeaponController.WeaponSO.Range; i++)
+                    {
+                        // Apply to all side
+                        // Up side
+                        Vector2 upSide = new Vector2(terrainPoint.x, terrainPoint.y + i);
+                        SetTerrainIndicator(upSide, TerrainIndicator.AttackingArea);
+                        attackingArea.Add(upSide);
 
-                    // Right side
-                    Vector2 rightSide = new Vector2(
-                        terrainPoint.x + unit.WeaponController.WeaponSO.Range,
-                        terrainPoint.y);
-                    SetTerrainIndicator(rightSide, TerrainIndicator.AttackingArea);
-                    attackingArea.Add(rightSide);
+                        // Right side
+                        Vector2 rightSide = new Vector2(terrainPoint.x + i, terrainPoint.y);
+                        SetTerrainIndicator(rightSide, TerrainIndicator.AttackingArea);
+                        attackingArea.Add(rightSide);
 
-                    // Down side
-                    Vector2 downSide = new Vector2(
-                        terrainPoint.x,
-                        terrainPoint.y - unit.WeaponController.WeaponSO.Range);
-                    SetTerrainIndicator(downSide, TerrainIndicator.AttackingArea);
-                    attackingArea.Add(downSide);
+                        // Down side
+                        Vector2 downSide = new Vector2(terrainPoint.x, terrainPoint.y - i);
+                        SetTerrainIndicator(downSide, TerrainIndicator.AttackingArea);
+                        attackingArea.Add(downSide);
 
-                    // Left side
-                    Vector2 leftSide = new Vector2(
-                        terrainPoint.x - unit.WeaponController.WeaponSO.Range,
-                        terrainPoint.y);
-                    SetTerrainIndicator(leftSide, TerrainIndicator.AttackingArea);
-                    attackingArea.Add(leftSide);
+                        // Left side
+                        Vector2 leftSide = new Vector2(terrainPoint.x - i, terrainPoint.y);
+                        SetTerrainIndicator(leftSide, TerrainIndicator.AttackingArea);
+                        attackingArea.Add(leftSide);
+                    }
                 }
             }
 
