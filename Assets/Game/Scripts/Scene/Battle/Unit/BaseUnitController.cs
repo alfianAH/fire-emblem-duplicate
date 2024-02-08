@@ -384,6 +384,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     {
                         SetTerrainIndicator(terrainPoint, TerrainIndicator.AllyOnMovementArea);
                     }
+                    else
+                    {
+                        Messenger.Default.Publish(new DeactivateTerrainIndicatorMessage((int)terrainPoint.x, (int)terrainPoint.y));
+                    }
 
                     movementArea.Remove(terrainPoint);
                 }
@@ -579,8 +583,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             );
 
             movementAreaPoints = SetTerrainAsMovementArea(movementAreaPoints);
-            movementAreaPoints = CheckTerrainMovementArea(movementAreaPoints);
             movementAreaPoints = CheckAllyOnMovementArea(movementAreaPoints);
+            movementAreaPoints = CheckTerrainMovementArea(movementAreaPoints);
             List<Vector2> attackingAreaPoints = SetTerrainAsAttackArea(movementAreaPoints);
             CheckEnemyOnAttackingArea(attackingAreaPoints);
         }
