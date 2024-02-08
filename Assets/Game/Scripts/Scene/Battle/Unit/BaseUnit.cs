@@ -30,7 +30,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         public void SetUnitStats(BaseUnitStats unitStats)
         {
-            UnitStats = unitStats;
+            UnitStats = new BaseUnitStats(
+                unitStats.BaseHP, unitStats.BaseATK, 
+                unitStats.BaseDEF, unitStats.BaseRES, unitStats.BaseLUK);
         }
 
         public void SetUnitSO(BaseUnitScriptableObject unit)

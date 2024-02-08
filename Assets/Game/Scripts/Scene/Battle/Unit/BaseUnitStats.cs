@@ -12,6 +12,16 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         [SerializeField, Tooltip("Unit Base RES")] private float _baseRes;
         [SerializeField, Tooltip("Unit Base LUK"), Range(0f, 1f)] private float _baseLuk;
 
+        public BaseUnitStats() { }
+        public BaseUnitStats(float baseHp, float baseAtk, float baseDef, float baseRes, float baseLuk)
+        {
+            _baseHp = baseHp;
+            _baseAtk = baseAtk;
+            _baseDef = baseDef;
+            _baseRes = baseRes;
+            _baseLuk = baseLuk;
+        }
+
         public float BaseHP
         {
             set { _baseHp = value; }

@@ -2957,7 +2957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &546628591
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3827,7 +3827,7 @@ MonoBehaviour:
   _enemyDef: {fileID: 556889431}
   _enemyRes: {fileID: 922447649}
   _enemyLuk: {fileID: 2089536909}
-  _enemyUnitType: {fileID: 1634121331}
+  _enemyUnitType: {fileID: 1300648529}
   _enemyWeapon: {fileID: 1577643956}
 --- !u!114 &780264598
 MonoBehaviour:
