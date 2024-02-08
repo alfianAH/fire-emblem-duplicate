@@ -15,6 +15,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             Messenger.Default.Subscribe<MoveUnitIntoAttackPointMessage>(controller.MoveUnitIntoAttackPoint);
             Messenger.Default.Subscribe<DecreaseHPMessage>(controller.DecreaseHP);
             Messenger.Default.Subscribe<OnBattleFinishMessage>(controller.OnBattleFinish);
+            Messenger.Default.Subscribe<ChangeStagePhaseMessage>(controller.OnChangeStagePhase);
         }
 
         public override void Unsubscribe()
@@ -26,6 +27,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             Messenger.Default.Unsubscribe<MoveUnitIntoAttackPointMessage>(controller.MoveUnitIntoAttackPoint);
             Messenger.Default.Unsubscribe<DecreaseHPMessage>(controller.DecreaseHP);
             Messenger.Default.Unsubscribe<OnBattleFinishMessage>(controller.OnBattleFinish);
+            Messenger.Default.Unsubscribe<ChangeStagePhaseMessage>(controller.OnChangeStagePhase);
         }
     }
 }

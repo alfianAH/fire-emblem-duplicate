@@ -94,6 +94,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
         }
 
+        public void OnChangeStagePhase(ChangeStagePhaseMessage message)
+        {
+            unit.SetUnitPhase(UnitPhase.Idle);
+        }
+
         public void OnUnitClick(OnClickUnitMessage message)
         {
             if (message.ClickedUnit != this || unit.MovementSpace == 0) return;

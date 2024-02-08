@@ -10,12 +10,14 @@ namespace FireEmblemDuplicate.Scene.Battle.Stage
         {
             Messenger.Default.Subscribe<ChangeStageInPhaseMessage>(controller.SetInPhaseEnum);
             Messenger.Default.Subscribe<ChangeCurrentUnitOnClickMessage>(controller.SetCurrentUnitOnClick);
+            Messenger.Default.Subscribe<ChangeStagePhaseMessage>(controller.SetStagePhase);
         }
 
         public override void Unsubscribe()
         {
             Messenger.Default.Unsubscribe<ChangeStageInPhaseMessage>(controller.SetInPhaseEnum);
             Messenger.Default.Unsubscribe<ChangeCurrentUnitOnClickMessage>(controller.SetCurrentUnitOnClick);
+            Messenger.Default.Unsubscribe<ChangeStagePhaseMessage>(controller.SetStagePhase);
         }
     }
 }

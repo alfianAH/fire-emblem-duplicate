@@ -29,11 +29,26 @@ namespace FireEmblemDuplicate.Scene.Battle.Stage
         {
             ProcessStageData();
             SetPhase(StagePhase.PlayerPhase);
+            Messenger.Default.Publish(new UpdateTurnNumberMessage(1));
         }
 
         public void SetCurrentUnitOnClick(ChangeCurrentUnitOnClickMessage message)
         {
             Stage.SetCurrentUnitOnClick(message.UnitController);
+        }
+
+        public void SetStagePhase(ChangeStagePhaseMessage message)
+        {
+            if(message.NewPhase == StagePhase.PlayerPhase)
+            {
+                Stage.AddTurn();
+                Messenger.Default.Publish(new UpdateTurnNumberMessage(Stage.TurnNumber));
+            }
+
+            SetPhase(message.NewPhase);
+            Stage.SetInPhaseEnum(InPhaseEnum.Idle);
+            Stage.SetCurrentUnitOnClick(null);
+            Messenger.Default.Publish(new DeactivateAllTerrainIndicatorMessage());
         }
 
         public void SetInPhaseEnum(ChangeStageInPhaseMessage message)
@@ -66,6 +81,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Stage
                     SetPhaseInactive(_playerPhaseText);
                     break;
             }
+
+            Stage.SetStagePhase(newPhase);
         }
 
         private void SetPhaseActive(TextMeshProUGUI text)
