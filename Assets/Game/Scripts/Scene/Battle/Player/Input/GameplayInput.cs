@@ -57,7 +57,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
                 case InputActionPhase.Canceled:
                     if (context.duration < 0.4f) return;
 
-                    // BUG: ADD IF TO LIMIT THE PUBLISH
                     Messenger.Default.Publish(new OnEndDragUnitMessage());
                     break;
             }

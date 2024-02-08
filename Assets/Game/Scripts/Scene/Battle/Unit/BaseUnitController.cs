@@ -23,6 +23,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         [SerializeField] private LayerMask _terrainLayer = -1;
 
         protected BaseUnit unit;
+        private BaseTerrainController _currentTerrain;
         private Camera _mainCamera;
         private Coroutine _dragUnitCoroutine;
         private SpriteRenderer _spriteRenderer;
@@ -43,7 +44,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         {
             // When unit is on drag, get the terrain below unit until unit is stopped being dragged
             if (unit.UnitPhase != UnitPhase.OnDrag) return;
-            CheckTerrain();
+            _currentTerrain = CheckTerrain();
         }
 
         public void DecreaseHP(DecreaseHPMessage message)
@@ -64,7 +65,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             else
             {
                 if(unit.OriginTerrainController == null) return;
-                
+
                 // Set the terrain back to origin
                 transform.position = unit.OriginTerrainController.transform.position;
                 unit.SetTerrain(unit.OriginTerrainController);
@@ -194,13 +195,29 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         public void OnEndDragUnit(OnEndDragUnitMessage message)
         {
-            if (_dragUnitCoroutine == null) return;
+            if (_dragUnitCoroutine == null || _currentTerrain == null) return;
             StopCoroutine(_dragUnitCoroutine);
             _dragUnitCoroutine = null;
 
+            if (_currentTerrain.Terrain.UnitOnTerrain == null)
+            {
+                SetUnitOnTerrain(null);
+                unit.SetTerrain(_currentTerrain);
+                SetUnitOnTerrain(this);
+            }
+            else
+            {
+                if (_currentTerrain.Terrain.UnitOnTerrain.Unit.BaseUnitSO.Side != unit.BaseUnitSO.Side)
+                {
+                    Debug.Log("gelud");
+                    Messenger.Default.Publish(new StartBattleMessage(this, _currentTerrain.Terrain.UnitOnTerrain));
+                    Messenger.Default.Publish(new DeactivateAllTerrainIndicatorMessage());
+                    return;
+                }
+            }
+
             Move();
 
-            // If on dragging and the terrain is the same on end drag, unit can still move
             if (unit.TerrainController != unit.OriginTerrainController)
             {
                 // NOTE: CHANGE IT TO IMMOVABLE. THIS IS JUST FOR DEBUG
@@ -209,6 +226,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             }
             else
             {
+                // If on dragging and the terrain is the same on end drag, unit can still move
                 unit.SetUnitPhase(UnitPhase.Idle);
             }
 
@@ -249,27 +267,24 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
         /// <summary>
         /// Check terrain where unit is on
-        /// Used on Start and Update on drag
         /// </summary>
-        protected virtual void CheckTerrain()
+        private BaseTerrainController CheckTerrain()
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.forward, 1f, _terrainLayer);
 
             if (!hit)
             {
                 Debug.LogError("Can't find terrain");
-                return;
+                return null;
             }
 
             if (!hit.collider.gameObject.TryGetComponent<BaseTerrainController>(out var terrainController))
             {
                 Debug.LogError($"{hit.collider.gameObject.name} don't have BaseTerrainController");
-                return;
+                return null;
             }
 
-            SetUnitOnTerrain(null);
-            unit.SetTerrain(terrainController);
-            SetUnitOnTerrain(this);
+            return terrainController;
         }
 
         protected virtual List<UnitImpassableTerrain> ImpassableTerrains()
@@ -363,7 +378,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
                     if (terrain == null) continue;
                     if (terrain.Terrain.UnitOnTerrain == null) continue;
-                    if (terrain.Terrain.UnitOnTerrain == unit) continue;
+                    if (terrain.Terrain.UnitOnTerrain == this) continue;
 
                     if(terrain.Terrain.UnitOnTerrain.Unit.BaseUnitSO.Side == unit.BaseUnitSO.Side)
                     {
@@ -505,13 +520,13 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                         if(unitCurrentPos.y < terrainPoint.y)
                         {
                             // Add to up
-                            unit.BlockedTerrain.Add(new Vector2(
+                            unit.AddBlockedTerrain(new Vector2(
                                 unitCurrentPos.x, unitCurrentPos.y + i));
                         }
                         else if(unitCurrentPos.y > terrainPoint.y)
                         {
                             // Add to bottom
-                            unit.BlockedTerrain.Add(new Vector2(
+                            unit.AddBlockedTerrain(new Vector2(
                                 unitCurrentPos.x, unitCurrentPos.y - i));
                         }
                     }
