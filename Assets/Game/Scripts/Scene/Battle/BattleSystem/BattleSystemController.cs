@@ -42,7 +42,7 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
             BaseTerrain defenderTerrain = defender.Unit.TerrainController.Terrain;
 
             bool isInRange = Mathf.Abs(attackerTerrain.XPos - defenderTerrain.XPos) + Mathf.Abs(attackerTerrain.YPos - defenderTerrain.YPos) == weaponRange;
-
+            
             return isInRange;
         }
 
@@ -72,15 +72,16 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
                 return;
             }
 
-            BaseTerrainController terrain = TerrainPoolController.Instance.TerrainPool.Find(t => t.Terrain.XPos == inRangePoints[0].x && t.Terrain.YPos == inRangePoints[0].y);
-
-            if (terrain == null)
+            foreach(Vector2 inRangePoint in inRangePoints)
             {
-                Debug.LogError("Terrain in range is null");
-                return;
+                BaseTerrainController terrain = TerrainPoolController.Instance.TerrainPool.Find(t => t.Terrain.XPos == inRangePoint.x && t.Terrain.YPos == inRangePoint.y);
+                
+                if (terrain != null && terrain.Terrain.CanBeUsed)
+                {
+                    Messenger.Default.Publish(new MoveUnitIntoAttackPointMessage(attacker, terrain));
+                    break;
+                }
             }
-
-            Messenger.Default.Publish(new MoveUnitIntoAttackPointMessage(attacker, terrain));
         }
 
         private List<Vector2> CheckTerrainPointsAvailability(List<Vector2> inRangePoints)
