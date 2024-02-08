@@ -9,11 +9,13 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
         public override void Subscribe()
         {
             Messenger.Default.Subscribe<UpdateTurnNumberMessage>(controller.UpdateTurnNumber);
+            Messenger.Default.Subscribe<WinMessage>(controller.OnWin);
         }
 
         public override void Unsubscribe()
         {
             Messenger.Default.Unsubscribe<UpdateTurnNumberMessage>(controller.UpdateTurnNumber);
+            Messenger.Default.Unsubscribe<WinMessage>(controller.OnWin);
         }
     }
 }

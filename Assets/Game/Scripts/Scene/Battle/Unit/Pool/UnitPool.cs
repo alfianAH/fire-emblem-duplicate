@@ -17,5 +17,25 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
         {
             _enemyUnits.AddRange(enemyUnits);
         }
+
+        public void RemovePlayerUnit(BaseUnitController playerUnit)
+        {
+            _playerUnits.Remove(playerUnit);
+        }
+
+        public void RemoveEnemyUnit(BaseUnitController enemyUnit)
+        {
+            _enemyUnits.Remove(enemyUnit);
+        }
+
+        public int RemainingPlayerUnit()
+        {
+            return _playerUnits.Count;
+        }
+
+        public int RemainingEnemyUnit()
+        {
+            return _enemyUnits.Count;
+        }
     }
 }

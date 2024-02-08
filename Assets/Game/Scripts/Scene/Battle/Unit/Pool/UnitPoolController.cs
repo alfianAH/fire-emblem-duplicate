@@ -2,7 +2,9 @@ using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Stage;
 using FireEmblemDuplicate.Scene.Battle.Terrain;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Pool;
+using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
 using FireEmblemDuplicate.Scene.Battle.Weapon;
+using SuperMaxim.Messaging;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +21,29 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
         private void Awake()
         {
             _unitPool = GetComponent<UnitPool>();
+        }
+
+        public void OnUnitDead(UnitDeadMessage message)
+        {
+            switch (message.Unit.Unit.BaseUnitSO.Side)
+            {
+                case UnitSide.Player:
+                    _unitPool.RemovePlayerUnit(message.Unit);
+
+                    if (_unitPool.RemainingPlayerUnit() == 0)
+                    {
+                        Messenger.Default.Publish(new WinMessage(UnitSide.Player));
+                    }
+                    break;
+
+                case UnitSide.Enemy:
+                    _unitPool.RemoveEnemyUnit(message.Unit);
+                    if (_unitPool.RemainingEnemyUnit() == 0)
+                    {
+                        Messenger.Default.Publish(new WinMessage(UnitSide.Player));
+                    }
+                    break;
+            }
         }
 
         public void MakePlayerUnit(MakePlayerUnitMessage message)

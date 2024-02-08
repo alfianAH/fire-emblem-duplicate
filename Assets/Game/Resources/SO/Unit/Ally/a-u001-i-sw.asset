@@ -21,4 +21,4 @@ MonoBehaviour:
     _baseAtk: 10
     _baseDef: 5
     _baseRes: 5
-    _baseLuk: 1
+    _baseLuk: 0.2

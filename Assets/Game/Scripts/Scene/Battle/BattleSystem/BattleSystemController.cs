@@ -56,6 +56,7 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
             BaseTerrain attackerTerrain = attacker.Unit.TerrainController.Terrain;
             BaseTerrain defenderTerrain = defender.Unit.TerrainController.Terrain;
 
+            // NOTE: PERLU ADA DIAGONAL
             // Left side
             inRangePoints.Add(new Vector2(defenderTerrain.XPos - weaponRange, defenderTerrain.YPos));
             // Up side

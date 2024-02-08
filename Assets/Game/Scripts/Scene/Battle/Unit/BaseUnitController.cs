@@ -13,6 +13,7 @@ using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
 using System;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Pool;
 using FireEmblemDuplicate.Scene.Battle.Weapon;
+using FireEmblemDuplicate.Scene.Battle.Unit.Pool;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
@@ -51,6 +52,13 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         {
             if (message.Defender != this) return;
             unit.DecreaseHP(message.Amount);
+
+            if (unit.UnitStats.BaseHP <= 0f)
+            {
+                Messenger.Default.Publish(new UnitDeadMessage(this));
+                SetUnitOnTerrain(null);
+                StartCoroutine(UnitDead());
+            }
         }
 
         public void Move()
@@ -475,6 +483,12 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         {
             Messenger.Default.Publish(new ChangeTerrainIndicatorMessage(
                 (int)terrainPoint.x, (int)terrainPoint.y, indicator));
+        }
+
+        private IEnumerator UnitDead()
+        {
+            yield return new WaitForSeconds(2f);
+            gameObject.SetActive(false);
         }
 
         private bool BlockMovement(Vector2 terrainPoint)
