@@ -48,6 +48,8 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
 
         private void MoveAttackerWithinRange(BaseUnitController attacker, BaseUnitController defender)
         {
+            bool moveUnit = false;
+
             // Check attacker's weapon range
             int weaponRange = attacker.Unit.WeaponController.WeaponSO.Range;
             List<Vector2> inRangePoints = new List<Vector2>();
@@ -65,6 +67,7 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
 
             inRangePoints = CheckTerrainPointsAvailability(inRangePoints);
             inRangePoints = CheckForNearestTerrain(attackerTerrain, inRangePoints);
+            inRangePoints = inRangePoints.Distinct().ToList();
 
             if(inRangePoints.Count == 0)
             {
@@ -78,9 +81,21 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
                 
                 if (terrain != null && terrain.Terrain.CanBeUsed)
                 {
+                    moveUnit = true;
                     Messenger.Default.Publish(new MoveUnitIntoAttackPointMessage(attacker, terrain));
                     break;
                 }
+            }
+
+            if (!moveUnit)
+            {
+                string error = "Unit doesn't move. Points: ";
+                foreach(Vector2 inRangePoint in inRangePoints)
+                {
+                    error += inRangePoint.ToString();
+                }
+
+                Debug.LogError(error);
             }
         }
 
@@ -126,6 +141,7 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
 
         private IEnumerator StartBattle(BaseUnitController attacker, BaseUnitController defender)
         {
+            Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.OnBattle));
             switch (StageController.Instance.Stage.Phase)
             {
                 case StagePhase.PlayerPhase:
@@ -143,6 +159,7 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
 
             yield return new WaitForSeconds(5f);
             Messenger.Default.Publish(new OnBattleFinishMessage(attacker));
+            Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
         }
 
         private float BattleBegin(BaseUnitController attacker, BaseUnitController defender)

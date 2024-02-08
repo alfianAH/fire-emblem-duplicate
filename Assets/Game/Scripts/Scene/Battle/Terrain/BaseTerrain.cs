@@ -28,15 +28,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Terrain
 
         public void SetUnitOnTerrain(BaseUnitController unitOnTerrain)
         {
-            if(unitOnTerrain != null)
-            {
-                Debug.Log($"{XPos}, {YPos}: {unitOnTerrain.gameObject.name} {unitOnTerrain.Unit.BaseUnitSO.Side}");
-            }
-            else
-            {
-                Debug.Log($"{XPos}, {YPos}: null");
-            }
-            
             UnitOnTerrain = unitOnTerrain;
         }
 

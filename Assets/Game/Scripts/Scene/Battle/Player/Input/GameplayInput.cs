@@ -21,7 +21,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
             if(hit2D.collider != null)
             {
                 GameObject selectedObject = hit2D.collider.gameObject;
-                if (selectedObject.CompareTag("Unit"))
+                if (selectedObject.CompareTag("Unit") && 
+                    StageController.Instance.Stage.InPhase != InPhaseEnum.OnBattle)
                 {
                     BaseUnitController selectedUnit = selectedObject.GetComponent<BaseUnitController>();
                     Messenger.Default.Publish(new OnClickUnitMessage(selectedUnit));

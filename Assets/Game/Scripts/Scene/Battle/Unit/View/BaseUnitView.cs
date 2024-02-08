@@ -8,6 +8,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
 {
     public class BaseUnitView : MonoBehaviour
     {
+        [SerializeField] private GameObject _detailsObject;
         [SerializeField] private TextMeshProUGUI _unitName;
         [SerializeField] private TextMeshProUGUI _unitCurrentHp;
         [SerializeField] private TextMeshProUGUI _unitFullHp;
@@ -21,6 +22,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
 
         public void SetView(SetCurrentUnitOnClickMessage message)
         {
+            _detailsObject.SetActive(true);
             BaseUnit unit = message.UnitController.Unit;
             BaseUnitStats unitStats = unit.UnitStats;
             
@@ -53,13 +55,13 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
             switch (unit.BaseUnitSO.Side)
             {
                 case UnitSide.Player:
-                    ColorUtility.TryParseHtmlString("#1AE700", out Color allyProfileColor);
-                    _unitProfile.color = allyProfileColor;
+                    if(ColorUtility.TryParseHtmlString("#1AE700", out Color allyProfileColor))
+                        _unitProfile.color = allyProfileColor;
                     break;
 
                 case UnitSide.Enemy:
-                    ColorUtility.TryParseHtmlString("#E72400", out Color enemyProfileColor);
-                    _unitProfile.color = enemyProfileColor;
+                    if(ColorUtility.TryParseHtmlString("#E72400", out Color enemyProfileColor))
+                        _unitProfile.color = enemyProfileColor;
                     break;
             }
         }

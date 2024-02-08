@@ -92,7 +92,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             unit.SetUnitPhase(UnitPhase.Immovable);
 
             Messenger.Default.Publish(new ChangeCurrentUnitOnClickMessage(null));
-            Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
         }
 
         public void OnChangeStagePhase(ChangeStagePhaseMessage message)
@@ -209,9 +208,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             {
                 if (_currentTerrain.Terrain.UnitOnTerrain.Unit.BaseUnitSO.Side != unit.BaseUnitSO.Side)
                 {
-                    Debug.Log("gelud");
+                    // Battle
                     Messenger.Default.Publish(new StartBattleMessage(this, _currentTerrain.Terrain.UnitOnTerrain));
                     Messenger.Default.Publish(new DeactivateAllTerrainIndicatorMessage());
+                    Move();
                     return;
                 }
             }
@@ -383,10 +383,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     if(terrain.Terrain.UnitOnTerrain.Unit.BaseUnitSO.Side == unit.BaseUnitSO.Side)
                     {
                         SetTerrainIndicator(terrainPoint, TerrainIndicator.AllyOnMovementArea);
-                    }
-                    else
-                    {
-                        SetTerrainIndicator(terrainPoint, TerrainIndicator.Fight);
                     }
 
                     movementArea.Remove(terrainPoint);

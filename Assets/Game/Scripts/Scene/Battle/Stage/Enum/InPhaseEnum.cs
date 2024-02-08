@@ -4,5 +4,6 @@ namespace FireEmblemDuplicate.Scene.Battle.Stage.Enum
     {
         Idle,
         OnClickUnit,
+        OnBattle,
     }
 }
