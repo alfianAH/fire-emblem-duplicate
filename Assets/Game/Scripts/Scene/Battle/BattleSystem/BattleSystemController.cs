@@ -141,7 +141,7 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
             Messenger.Default.Publish(new DecreaseHPMessage(defender, damageAmount));
 
             yield return new WaitForSeconds(5f);
-            Messenger.Default.Publish(new OnBattleFinishMessage());
+            Messenger.Default.Publish(new OnBattleFinishMessage(attacker));
         }
 
         private float BattleBegin(BaseUnitController attacker, BaseUnitController defender)
