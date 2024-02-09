@@ -20,12 +20,17 @@ namespace FireEmblemDuplicate.Scene.Battle.Item
             SetItemView();
         }
 
+        public void ResetToggle()
+        {
+            _itemToggle.isOn = false;
+        }
+
         private void SetItemView()
         {
             _title.text = ItemSO.ItemName;
             _description.text = ItemSO.Description;
             _itemImage.sprite = ItemSO.ItemSprite;
-            _itemToggle.isOn = false;
+            ResetToggle();
         }
     }
 }

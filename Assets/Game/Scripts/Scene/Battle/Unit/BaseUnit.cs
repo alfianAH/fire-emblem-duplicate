@@ -11,7 +11,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         [SerializeField] private Sprite _unitTypeSprite;
         [SerializeField] private UnitPhase _unitPhase = UnitPhase.Idle;
         [SerializeField] private WeaponController _weaponController;
+        [SerializeField] private bool _isBuffed = false;
         
+        public bool IsBuffed => _isBuffed;
         public Color UnitColor { get; private set; }
         public Sprite UnitTypeSprite => _unitTypeSprite;
         public UnitPhase UnitPhase => _unitPhase;
@@ -72,6 +74,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             BlockedTerrain.Clear();
         }
 
+        public void SetIsBuffed(bool isBuffed)
+        {
+            _isBuffed = isBuffed;
+        }
+
         public void DecreaseHP(float amount)
         {
             UnitStats.BaseHP -= amount;
@@ -88,6 +95,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public void IncreaseATK(float amount)
         {
             UnitStats.BaseATK += amount;
+        }
+
+        public void IncreaseDEF(float amount)
+        {
+            UnitStats.BaseDEF += amount;
         }
     }
 }

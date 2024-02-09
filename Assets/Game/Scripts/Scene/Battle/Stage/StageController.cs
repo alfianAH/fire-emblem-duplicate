@@ -28,7 +28,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Stage
         private void Start()
         {
             ProcessStageData();
-            SetPhase(StagePhase.PlayerPhase);
+            SetPhase(StagePhase.Preparation);
             Messenger.Default.Publish(new UpdateTurnNumberMessage(1));
         }
 

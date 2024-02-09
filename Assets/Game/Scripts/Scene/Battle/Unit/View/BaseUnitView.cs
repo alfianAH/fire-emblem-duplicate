@@ -1,5 +1,6 @@
 using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
+using SuperMaxim.Messaging;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
         [SerializeField] private Image _unitProfile;
         [SerializeField] private Image _unitType;
         [SerializeField] private Image _unitWeapon;
+        [SerializeField] private Button _addItemButton;
 
         public void SetView(SetCurrentUnitOnClickMessage message)
         {
@@ -36,6 +38,20 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
 
             _unitType.sprite = unit.UnitTypeSprite;
             _unitWeapon.sprite = unit.WeaponController.WeaponSO.WeaponSprite;
+
+            _addItemButton.onClick.RemoveAllListeners();
+            if (!unit.IsBuffed)
+            {
+                _addItemButton.gameObject.SetActive(true);
+                _addItemButton.onClick.AddListener(() =>
+                {
+                    Messenger.Default.Publish(new OnClickAddItemMessage(message.UnitController));
+                });
+            }
+            else
+            {
+                _addItemButton.gameObject.SetActive(false);
+            }
 
             switch (unit.BaseUnitSO.Affinity)
             {

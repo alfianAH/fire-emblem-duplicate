@@ -38,6 +38,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
 
         public void OnDrag(InputAction.CallbackContext context)
         {
+            if(StageController.Instance.Stage.Phase == StagePhase.Preparation)
+                return;
+
             Vector3 mousePosition = Mouse.current.position.ReadValue();
             Ray ray = Camera.main.ScreenPointToRay(mousePosition);
             RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray);

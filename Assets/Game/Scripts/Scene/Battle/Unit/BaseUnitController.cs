@@ -13,7 +13,7 @@ using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
 using System;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Pool;
 using FireEmblemDuplicate.Scene.Battle.Weapon;
-using FireEmblemDuplicate.Scene.Battle.Unit.Pool;
+using FireEmblemDuplicate.Scene.Battle.Item.Enum;
 
 namespace FireEmblemDuplicate.Scene.Battle.Unit
 {
@@ -59,6 +59,31 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                 SetUnitOnTerrain(null);
                 StartCoroutine(UnitDead());
             }
+        }
+
+        public void AddItemEffect(AddItemEffectMessage message)
+        {
+            if (message.TargetUnit != this) return;
+
+            switch (message.Type)
+            {
+                case ItemType.HP:
+                    unit.IncreaseHP(message.Amount);
+                    break;
+
+                case ItemType.ATK:
+                    unit.IncreaseATK(message.Amount);
+                    break;
+
+                case ItemType.DEF:
+                    unit.IncreaseDEF(message.Amount);
+                    break;
+
+                default: break;
+            }
+
+            unit.SetIsBuffed(true);
+            Messenger.Default.Publish(new SetCurrentUnitOnClickMessage(this));
         }
 
         public void Move()
@@ -112,6 +137,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             if (message.ClickedUnit != this || unit.MovementSpace == 0) return;
 
             Messenger.Default.Publish(new SetCurrentUnitOnClickMessage(this));
+
+            if (_stageController.Stage.Phase == StagePhase.Preparation) return;
 
             // If player click other unit side while not click any unit,
             // return and dont do anything

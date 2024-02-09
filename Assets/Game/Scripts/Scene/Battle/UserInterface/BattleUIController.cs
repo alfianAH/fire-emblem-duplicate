@@ -13,6 +13,7 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
     public class BattleUIController : MonoBehaviour
     {
         [Header("Gameplay")]
+        [SerializeField] private Button _fightButton;
         [SerializeField] private Button _endPhaseButton;
         [SerializeField] private TextMeshProUGUI _turnText;
 
@@ -28,6 +29,11 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
 
             _homeButton.onClick.RemoveAllListeners();
             _homeButton.onClick.AddListener(LoadHome);
+
+            _fightButton.onClick.RemoveAllListeners();
+            _fightButton.onClick.AddListener(StartFight);
+
+            _endPhaseButton.gameObject.SetActive(false);
         }
 
         public void UpdateTurnNumber(UpdateTurnNumberMessage message)
@@ -60,6 +66,13 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
         {
             StagePhase newPhase = StageController.Instance.Stage.Phase == StagePhase.PlayerPhase ? StagePhase.EnemyPhase : StagePhase.PlayerPhase;
             Messenger.Default.Publish(new ChangeStagePhaseMessage(newPhase));
+        }
+
+        private void StartFight()
+        {
+            _endPhaseButton.gameObject.SetActive(true);
+            _fightButton.gameObject.SetActive(false);
+            Messenger.Default.Publish(new ChangeStagePhaseMessage(StagePhase.PlayerPhase));
         }
     }
 }

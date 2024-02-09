@@ -1,3 +1,7 @@
+using FireEmblemDuplicate.Message;
+using FireEmblemDuplicate.Scene.Battle.Item.Enum;
+using FireEmblemDuplicate.Scene.Battle.Unit;
+using SuperMaxim.Messaging;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +10,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Item
 {
     public class ItemController : MonoBehaviour
     {
+        [SerializeField] private GameObject _itemSelectionScreen;
         [SerializeField] private Transform _itemParent;
         [SerializeField] private Button _applyButton, _cancelButton;
         [SerializeField] private GameObject _warningText;
@@ -13,6 +18,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Item
         private ItemView _itemPrefab;
         private List<ItemScriptableObject> _itemSOList = new List<ItemScriptableObject>();
         private List<ItemView> _itemList = new List<ItemView>();
+        private BaseUnitController _currentClickUnit;
+
         private const int MAX_SELECTED_ITEM = 2;
 
         private void Start()
@@ -27,10 +34,21 @@ namespace FireEmblemDuplicate.Scene.Battle.Item
             _cancelButton.onClick.RemoveAllListeners();
             _cancelButton.onClick.AddListener(OnClickCancel);
         }
-
-        public void SetItemList()
+        
+        public void OnClickAddItem(OnClickAddItemMessage message)
         {
+            _itemSelectionScreen.SetActive(true);
             _warningText.SetActive(false);
+            foreach(ItemView itemView in _itemList)
+            {
+                itemView.ResetToggle();
+            }
+
+            _currentClickUnit = message.Unit;
+        }
+
+        private void SetItemList()
+        {
             foreach (ItemScriptableObject itemSO in _itemSOList)
             {
                 ItemView duplicateItem = Instantiate(_itemPrefab, _itemParent);
@@ -62,14 +80,18 @@ namespace FireEmblemDuplicate.Scene.Battle.Item
             {
                 foreach(ItemView itemView in selectedItems)
                 {
-                    Debug.Log(itemView.ItemSO.Description);
+                    ItemScriptableObject itemSO = itemView.ItemSO;
+                    Messenger.Default.Publish(new AddItemEffectMessage(
+                        _currentClickUnit, itemSO.Type, itemSO.Amount));
                 }
             }
+
+            _itemSelectionScreen.SetActive(false);
         }
 
         private void OnClickCancel()
         {
-
+            _itemSelectionScreen.SetActive(false);
         }
     }
 }
