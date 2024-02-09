@@ -18,7 +18,7 @@ MonoBehaviour:
   _side: 0
   _baseUnitStats:
     _baseHp: 20
-    _baseAtk: 10
+    _baseAtk: 20
     _baseDef: 5
     _baseRes: 5
     _baseLuk: 0.2

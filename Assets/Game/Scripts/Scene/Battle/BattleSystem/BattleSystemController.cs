@@ -8,6 +8,7 @@ using FireEmblemDuplicate.Scene.Battle.Unit;
 using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
 using FireEmblemDuplicate.Scene.Battle.Unit.Type.Flier;
 using FireEmblemDuplicate.Scene.Battle.Weapon.Enum;
+using FireEmblemDuplicate.Utility;
 using SuperMaxim.Messaging;
 using System.Collections;
 using System.Collections.Generic;
@@ -55,16 +56,9 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
             List<Vector2> inRangePoints = new List<Vector2>();
             BaseTerrain attackerTerrain = attacker.Unit.TerrainController.Terrain;
             BaseTerrain defenderTerrain = defender.Unit.TerrainController.Terrain;
+            Vector2 defenderPos = new Vector2(defenderTerrain.XPos, defenderTerrain.YPos);
 
-            // NOTE: PERLU ADA DIAGONAL
-            // Left side
-            inRangePoints.Add(new Vector2(defenderTerrain.XPos - weaponRange, defenderTerrain.YPos));
-            // Up side
-            inRangePoints.Add(new Vector2(defenderTerrain.XPos, defenderTerrain.YPos + weaponRange));
-            // Right side
-            inRangePoints.Add(new Vector2(defenderTerrain.XPos + weaponRange, defenderTerrain.YPos));
-            // Down side
-            inRangePoints.Add(new Vector2(defenderTerrain.XPos, defenderTerrain.YPos - weaponRange));
+            inRangePoints.AddRange(RhombusPoints.GeneratePointsInRhombusEdge(defenderPos, weaponRange));
 
             inRangePoints = CheckTerrainPointsAvailability(inRangePoints);
             inRangePoints = CheckForNearestTerrain(attackerTerrain, inRangePoints);

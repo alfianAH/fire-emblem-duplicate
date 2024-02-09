@@ -65,22 +65,37 @@ namespace FireEmblemDuplicate.Utility
             
             for(int i = 0; i <= radius; i++)
             {
-                List<Vector2> vertices = GenerateRhombusVertices(point, i);
-
-                for (int j = 0; j < vertices.Count; j++)
-                {
-                    // Add the current vertex
-                    pointsOnEdges.Add(vertices[j]);
-
-                    // Add points between current and next vertex
-                    int nextIndex = (j + 1) % vertices.Count;
-                    List<Vector2> pointsBetween = GeneratePointsBetween(vertices[j], vertices[nextIndex]);
-
-                    pointsOnEdges.AddRange(pointsBetween);
-                }
+                pointsOnEdges.AddRange(GeneratePointsInRhombusEdge(point, i));
             }
 
             return pointsOnEdges.Distinct().ToList();
+        }
+
+        /// <summary>
+        /// Generate points in rhombus edge
+        /// Based on Bresenham's Line Algorithm
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
+        public static List<Vector2> GeneratePointsInRhombusEdge(Vector2 point, int radius)
+        {
+            List<Vector2> pointsOnEdges = new List<Vector2>();
+            List<Vector2> vertices = GenerateRhombusVertices(point, radius);
+
+            for (int j = 0; j < vertices.Count; j++)
+            {
+                // Add the current vertex
+                pointsOnEdges.Add(vertices[j]);
+
+                // Add points between current and next vertex
+                int nextIndex = (j + 1) % vertices.Count;
+                List<Vector2> pointsBetween = GeneratePointsBetween(vertices[j], vertices[nextIndex]);
+
+                pointsOnEdges.AddRange(pointsBetween);
+            }
+
+            return pointsOnEdges;
         }
     }
 }

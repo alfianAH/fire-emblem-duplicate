@@ -88,6 +88,21 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem.View
             _allyLuk.text = (unitStats.BaseLUK * 100f).ToString();
             _allyUnitType.sprite = unit.Unit.UnitTypeSprite;
             _allyWeapon.sprite = unit.Unit.WeaponController.WeaponSO.WeaponSprite;
+
+            switch (unit.Unit.BaseUnitSO.Affinity)
+            {
+                case UnitAffinity.Red:
+                    _allyUnitType.color = Color.red;
+                    break;
+
+                case UnitAffinity.Green:
+                    _allyUnitType.color = Color.green;
+                    break;
+
+                case UnitAffinity.Blue:
+                    _allyUnitType.color = Color.blue;
+                    break;
+            }
         }
 
         private void SetEnemyView(BaseUnitController unit)
@@ -103,6 +118,21 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem.View
             _enemyLuk.text = (unitStats.BaseLUK * 100f).ToString();
             _enemyUnitType.sprite = unit.Unit.UnitTypeSprite;
             _enemyWeapon.sprite = unit.Unit.WeaponController.WeaponSO.WeaponSprite;
+
+            switch (unit.Unit.BaseUnitSO.Affinity)
+            {
+                case UnitAffinity.Red:
+                    _enemyUnitType.color = Color.red;
+                    break;
+
+                case UnitAffinity.Green:
+                    _enemyUnitType.color = Color.green;
+                    break;
+
+                case UnitAffinity.Blue:
+                    _enemyUnitType.color = Color.blue;
+                    break;
+            }
         }
     }
 }
