@@ -1,4 +1,7 @@
+using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Utility;
+using SuperMaxim.Messaging;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,6 +13,7 @@ namespace FireEmblemDuplicate.Scene.MainMenu.UserInterface
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _partyButton;
         [SerializeField] private Button _settingsButton;
+        [SerializeField] private GameObject _selectLevelScreen;
 
         private void Start()
         {
@@ -19,7 +23,7 @@ namespace FireEmblemDuplicate.Scene.MainMenu.UserInterface
 
         private void OnClickPlay()
         {
-            SceneManager.LoadScene(SceneName.BATTLE_SCENE);
+            _selectLevelScreen.SetActive(true);
         }
     }
 }

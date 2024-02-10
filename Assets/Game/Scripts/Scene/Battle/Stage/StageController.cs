@@ -1,6 +1,7 @@
 using FireEmblemDuplicate.Core.Singleton;
 using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
+using FireEmblemDuplicate.Scene.MainMenu.SelectLevel;
 using SuperMaxim.Messaging;
 using TMPro;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Stage
         private void Awake()
         {
             Stage = GetComponent<StageModel>();
-            ReadLevelResource("Level 1");
+            ReadLevelResource(SelectedLevel.Instance.LevelName);
         }
 
         private void Start()

@@ -1,0 +1,445 @@
+{
+  "Name": "Level 1",
+  "TerrainPool": {
+    "Width": 8,
+    "Height": 9,
+    "Terrains": [
+      {
+        "XAxis": 0,
+        "YAxis": 0,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 0,
+        "YAxis": 1,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 0,
+        "YAxis": 2,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 0,
+        "YAxis": 3,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 0,
+        "YAxis": 4,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 0,
+        "YAxis": 5,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 0,
+        "YAxis": 6,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 0,
+        "YAxis": 7,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 0,
+        "YAxis": 8,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 1,
+        "YAxis": 0,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 1,
+        "YAxis": 1,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 1,
+        "YAxis": 2,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 1,
+        "YAxis": 3,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 1,
+        "YAxis": 4,
+        "Type": "mountain"
+      },
+      {
+        "XAxis": 1,
+        "YAxis": 5,
+        "Type": "ruin"
+      },
+      {
+        "XAxis": 1,
+        "YAxis": 6,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 1,
+        "YAxis": 7,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 1,
+        "YAxis": 8,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 2,
+        "YAxis": 0,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 2,
+        "YAxis": 1,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 2,
+        "YAxis": 2,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 2,
+        "YAxis": 3,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 2,
+        "YAxis": 4,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 2,
+        "YAxis": 5,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 2,
+        "YAxis": 6,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 2,
+        "YAxis": 7,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 2,
+        "YAxis": 8,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 3,
+        "YAxis": 0,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 3,
+        "YAxis": 1,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 3,
+        "YAxis": 2,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 3,
+        "YAxis": 3,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 3,
+        "YAxis": 4,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 3,
+        "YAxis": 5,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 3,
+        "YAxis": 6,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 3,
+        "YAxis": 7,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 3,
+        "YAxis": 8,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 4,
+        "YAxis": 0,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 4,
+        "YAxis": 1,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 4,
+        "YAxis": 2,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 4,
+        "YAxis": 3,
+        "Type": "forest"
+      },
+      {
+        "XAxis": 4,
+        "YAxis": 4,
+        "Type": "mountain"
+      },
+      {
+        "XAxis": 4,
+        "YAxis": 5,
+        "Type": "ruin"
+      },
+      {
+        "XAxis": 4,
+        "YAxis": 6,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 4,
+        "YAxis": 7,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 4,
+        "YAxis": 8,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 5,
+        "YAxis": 0,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 5,
+        "YAxis": 1,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 5,
+        "YAxis": 2,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 5,
+        "YAxis": 3,
+        "Type": "forest"
+      },
+      {
+        "XAxis": 5,
+        "YAxis": 4,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 5,
+        "YAxis": 5,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 5,
+        "YAxis": 6,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 5,
+        "YAxis": 7,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 5,
+        "YAxis": 8,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 6,
+        "YAxis": 0,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 6,
+        "YAxis": 1,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 6,
+        "YAxis": 2,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 6,
+        "YAxis": 3,
+        "Type": "forest"
+      },
+      {
+        "XAxis": 6,
+        "YAxis": 4,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 6,
+        "YAxis": 5,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 6,
+        "YAxis": 6,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 6,
+        "YAxis": 7,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 6,
+        "YAxis": 8,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 7,
+        "YAxis": 0,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 7,
+        "YAxis": 1,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 7,
+        "YAxis": 2,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 7,
+        "YAxis": 3,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 7,
+        "YAxis": 4,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 7,
+        "YAxis": 5,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 7,
+        "YAxis": 6,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 7,
+        "YAxis": 7,
+        "Type": "plain"
+      },
+      {
+        "XAxis": 7,
+        "YAxis": 8,
+        "Type": "plain"
+      }
+    ]
+  },
+  "PlayerUnits": [
+    {
+      "UnitSO": "SO/Unit/Ally/a-u001-i-sw",
+      "UnitPrefab": "Prefabs/Unit/Infantry",
+      "UnitWeapon": "SO/Weapon/Sword",
+      "UnitPosition": {
+        "XAxis": 0,
+        "YAxis": 2
+      }
+    },
+    {
+      "UnitSO": "SO/Unit/Ally/a-u002-c-sw",
+      "UnitPrefab": "Prefabs/Unit/Cavalry",
+      "UnitWeapon": "SO/Weapon/Sword",
+      "UnitPosition": {
+        "XAxis": 1,
+        "YAxis": 2
+      }
+    },
+    {
+      "UnitSO": "SO/Unit/Ally/a-u003-i-b",
+      "UnitPrefab": "Prefabs/Unit/Infantry",
+      "UnitWeapon": "SO/Weapon/Bow",
+      "UnitPosition": {
+        "XAxis": 1,
+        "YAxis": 0
+      }
+    },
+    {
+      "UnitSO": "SO/Unit/Ally/a-u004-f-st",
+      "UnitPrefab": "Prefabs/Unit/Flier",
+      "UnitWeapon": "SO/Weapon/Staff",
+      "UnitPosition": {
+        "XAxis": 1,
+        "YAxis": 1
+      }
+    }
+  ],
+  "EnemyUnits": [
+    {
+      "UnitSO": "SO/Unit/Enemy/e-u001-i-sw",
+      "UnitPrefab": "Prefabs/Unit/Infantry",
+      "UnitWeapon": "SO/Weapon/Sword",
+      "UnitPosition": {
+        "XAxis": 7,
+        "YAxis": 8
+      }
+    },
+    {
+      "UnitSO": "SO/Unit/Enemy/e-u002-c-sw",
+      "UnitPrefab": "Prefabs/Unit/Cavalry",
+      "UnitWeapon": "SO/Weapon/Sword",
+      "UnitPosition": {
+        "XAxis": 6,
+        "YAxis": 7
+      }
+    },
+    {
+      "UnitSO": "SO/Unit/Enemy/e-u003-i-b",
+      "UnitPrefab": "Prefabs/Unit/Infantry",
+      "UnitWeapon": "SO/Weapon/Bow",
+      "UnitPosition": {
+        "XAxis": 6,
+        "YAxis": 8
+      }
+    },
+    {
+      "UnitSO": "SO/Unit/Enemy/e-u004-f-st",
+      "UnitPrefab": "Prefabs/Unit/Flier",
+      "UnitWeapon": "SO/Weapon/Staff",
+      "UnitPosition": {
+        "XAxis": 5,
+        "YAxis": 8
+      }
+    }
+  ]
+}
