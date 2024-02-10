@@ -2,6 +2,7 @@ using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Stage;
 using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
 using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
+using FireEmblemDuplicate.Utility;
 using SuperMaxim.Messaging;
 using TMPro;
 using UnityEngine;
@@ -59,7 +60,7 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
 
         private void LoadHome()
         {
-            SceneManager.LoadScene("MenuScene");
+            SceneManager.LoadScene(SceneName.MAIN_MENU_SCENE);
         }
 
         private void OnClickEndPhase()
