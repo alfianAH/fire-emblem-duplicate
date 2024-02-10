@@ -15,7 +15,9 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
     {
         [Header("Gameplay")]
         [SerializeField] private Button _fightButton;
-        [SerializeField] private Button _endPhaseButton;
+        [SerializeField] private Button _endPhaseButton, _menuButton, 
+            _settingsButton, _menuHomeButton, _resumeButton;
+        [SerializeField] private GameObject _menuScreen, _settingsScreen;
         [SerializeField] private TextMeshProUGUI _turnText;
 
         [Header("Game over")]
@@ -33,6 +35,18 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
 
             _fightButton.onClick.RemoveAllListeners();
             _fightButton.onClick.AddListener(StartFight);
+
+            _menuHomeButton.onClick.RemoveAllListeners();
+            _menuHomeButton.onClick.AddListener(LoadHome);
+
+            _menuButton.onClick.RemoveAllListeners();
+            _menuButton.onClick.AddListener(OnClickMenu);
+
+            _settingsButton.onClick.RemoveAllListeners();
+            _settingsButton.onClick.AddListener(OnClickSettings);
+
+            _resumeButton.onClick.RemoveAllListeners();
+            _resumeButton.onClick.AddListener(OnClickResume);
 
             _endPhaseButton.gameObject.SetActive(false);
         }
@@ -58,6 +72,21 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
             }
         }
 
+        private void OnClickMenu()
+        {
+            ActivateScreen(_menuScreen, true);
+        }
+
+        private void OnClickResume()
+        {
+            ActivateScreen(_menuScreen, false);
+        }
+
+        private void OnClickSettings()
+        {
+            ActivateScreen(_settingsScreen, true);
+        }
+
         private void LoadHome()
         {
             Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
@@ -77,6 +106,12 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
             _endPhaseButton.gameObject.SetActive(true);
             _fightButton.gameObject.SetActive(false);
             Messenger.Default.Publish(new ChangeStagePhaseMessage(StagePhase.PlayerPhase));
+        }
+
+        private void ActivateScreen(GameObject screenObject, bool isActive)
+        {
+            Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
+            screenObject.SetActive(isActive);
         }
     }
 }
