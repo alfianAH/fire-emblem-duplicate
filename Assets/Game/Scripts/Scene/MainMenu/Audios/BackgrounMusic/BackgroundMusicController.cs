@@ -15,7 +15,18 @@ namespace FireEmblemDuplicate.Scene.MainMenu.Audios.BackgroundMusic
             _audioSource = GetComponent<AudioSource>();
             LoadBackgroundMusic();
             Play(AudioName.BGM);
-            DontDestroyOnLoad(this);
+
+            if (_instance == null)
+            {
+                _instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            DontDestroyOnLoad(gameObject);
         }
 
         public void Play(string audioName)

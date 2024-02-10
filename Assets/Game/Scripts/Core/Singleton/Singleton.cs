@@ -4,7 +4,7 @@ namespace FireEmblemDuplicate.Core.Singleton
 {
     public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
-        private static T _instance;
+        protected static T _instance;
         private static readonly object padlock = new object();
         public static T Instance
         {

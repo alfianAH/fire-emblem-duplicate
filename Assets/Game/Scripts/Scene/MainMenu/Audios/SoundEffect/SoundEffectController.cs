@@ -19,7 +19,17 @@ namespace FireEmblemDuplicate.Scene.MainMenu.Audios.SoundEffect
         private void Start()
         {
             LoadSoundEffect();
-            DontDestroyOnLoad(this);
+            if (_instance == null)
+            {
+                _instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            DontDestroyOnLoad(gameObject);
         }
 
         public void Play(PlaySFXMessage message)
