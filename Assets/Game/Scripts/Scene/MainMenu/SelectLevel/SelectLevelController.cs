@@ -1,3 +1,6 @@
+using FireEmblemDuplicate.Message;
+using FireEmblemDuplicate.Utility;
+using SuperMaxim.Messaging;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,6 +42,7 @@ namespace FireEmblemDuplicate.Scene.MainMenu.SelectLevel
 
         private void OnClickBack()
         {
+            Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
             _selectLevelScreen.SetActive(false);
         }
     }

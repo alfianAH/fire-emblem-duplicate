@@ -25,6 +25,7 @@ namespace FireEmblemDuplicate.Scene.MainMenu.SelectLevel
 
         private void LoadBattleScene()
         {
+            Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
             SelectedLevel.Instance.SetLevelName(_levelName);
             SceneManager.LoadScene(SceneName.BATTLE_SCENE);
         }

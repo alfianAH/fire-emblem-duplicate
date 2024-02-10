@@ -1,5 +1,6 @@
 using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
+using FireEmblemDuplicate.Utility;
 using SuperMaxim.Messaging;
 using TMPro;
 using UnityEngine;
@@ -45,6 +46,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
                 _addItemButton.gameObject.SetActive(true);
                 _addItemButton.onClick.AddListener(() =>
                 {
+                    Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
                     Messenger.Default.Publish(new OnClickAddItemMessage(message.UnitController));
                 });
             }

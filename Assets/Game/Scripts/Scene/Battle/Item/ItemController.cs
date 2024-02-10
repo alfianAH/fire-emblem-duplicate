@@ -1,6 +1,7 @@
 using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Item.Enum;
 using FireEmblemDuplicate.Scene.Battle.Unit;
+using FireEmblemDuplicate.Utility;
 using SuperMaxim.Messaging;
 using System.Collections.Generic;
 using UnityEngine;
@@ -69,6 +70,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Item
 
         private void OnClickApply()
         {
+            Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
             List<ItemView> selectedItems = _itemList.FindAll(i => i.ItemToggle.isOn);
             int selectedItemCount = selectedItems.Count;
 
@@ -91,6 +93,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Item
 
         private void OnClickCancel()
         {
+            Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
             _itemSelectionScreen.SetActive(false);
         }
     }

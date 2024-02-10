@@ -60,17 +60,20 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
 
         private void LoadHome()
         {
+            Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
             SceneManager.LoadScene(SceneName.MAIN_MENU_SCENE);
         }
 
         private void OnClickEndPhase()
         {
+            Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
             StagePhase newPhase = StageController.Instance.Stage.Phase == StagePhase.PlayerPhase ? StagePhase.EnemyPhase : StagePhase.PlayerPhase;
             Messenger.Default.Publish(new ChangeStagePhaseMessage(newPhase));
         }
 
         private void StartFight()
         {
+            Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
             _endPhaseButton.gameObject.SetActive(true);
             _fightButton.gameObject.SetActive(false);
             Messenger.Default.Publish(new ChangeStagePhaseMessage(StagePhase.PlayerPhase));
