@@ -75,11 +75,13 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
         private void OnClickMenu()
         {
             ActivateScreen(_menuScreen, true);
+            Messenger.Default.Publish(new PauseGameMessage());
         }
 
         private void OnClickResume()
         {
             ActivateScreen(_menuScreen, false);
+            Messenger.Default.Publish(new ResumeGameMessage());
         }
 
         private void OnClickSettings()

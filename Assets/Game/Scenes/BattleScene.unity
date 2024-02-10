@@ -8531,6 +8531,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1131243641}
   - component: {fileID: 1131243642}
+  - component: {fileID: 1131243643}
   m_Layer: 0
   m_Name: Player Input Controller
   m_TagString: Untagged
@@ -8563,6 +8564,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d843d04bcd75c1648ad446457bd40194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1131243643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131243640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da9c4fe800d6f364f8ed1baaccb01aae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1131520849

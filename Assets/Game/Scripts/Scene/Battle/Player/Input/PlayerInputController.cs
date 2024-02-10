@@ -1,3 +1,4 @@
+using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.InputSystem;
 using UnityEngine;
 
@@ -22,6 +23,16 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
         private void OnDisable()
         {
             _inputActionManager.Gameplay.Disable();
+        }
+
+        public void PauseGame(PauseGameMessage message)
+        {
+            _inputActionManager.Gameplay.Disable();
+        }
+
+        public void ResumeGame(ResumeGameMessage message)
+        {
+            _inputActionManager.Gameplay.Enable();
         }
     }
 }
