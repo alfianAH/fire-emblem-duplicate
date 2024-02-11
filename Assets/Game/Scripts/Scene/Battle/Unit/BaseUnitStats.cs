@@ -44,8 +44,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         }
         public float BaseLUK
         {
-            set { _baseRes = value; }
-            get { return _baseRes; }
+            set { _baseLuk = value; }
+            get { return _baseLuk; }
         }
     }
 }

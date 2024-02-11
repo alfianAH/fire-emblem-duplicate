@@ -37,7 +37,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
             _unitAtk.text = unitStats.BaseATK.ToString();
             _unitDef.text = unitStats.BaseDEF.ToString();
             _unitRes.text = unitStats.BaseRES.ToString();
-            _unitLuk.text = unitStats.BaseLUK.ToString();
+            _unitLuk.text = (unitStats.BaseLUK * 100f).ToString();
 
             _unitType.sprite = unit.UnitTypeSprite;
             _unitWeapon.sprite = unit.WeaponController.WeaponSO.WeaponSprite;
