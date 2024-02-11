@@ -130,6 +130,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
         public void OnChangeStagePhase(ChangeStagePhaseMessage message)
         {
             unit.SetUnitPhase(UnitPhase.Idle);
+            // Reset unit blocked terrain
+            unit.RemoveBlockedTerrain();
         }
 
         public void OnUnitClick(OnClickUnitMessage message)
@@ -580,13 +582,13 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                         if (unitCurrentPos.x < terrainPoint.x)
                         {
                             // Add to right
-                            unit.BlockedTerrain.Add(new Vector2(
+                            unit.AddBlockedTerrain(new Vector2(
                                 unitCurrentPos.x + i, unitCurrentPos.y));
                         }
                         else if (unitCurrentPos.x > terrainPoint.x)
                         {
                             // Add to left
-                            unit.BlockedTerrain.Add(new Vector2(
+                            unit.AddBlockedTerrain(new Vector2(
                                 unitCurrentPos.x - i, unitCurrentPos.y));
                         }
                     }
