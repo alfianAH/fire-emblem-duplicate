@@ -183,13 +183,16 @@ namespace FireEmblemDuplicate.Scene.Battle.BattleSystem
                 new RandomSelection(1, 1, attackerLuk)
             );
 
-            float damageAmount = 0;
+            float damageAmount = 0f;
             if(randomNumber == 1)
             {
                 damageAmount = baseAttack + damageBonus - defensiveAmount;
             }
+            damageAmount = Mathf.Round(damageAmount);
+            if (damageAmount < 0f)
+                damageAmount = 0f;
 
-            return Mathf.Round(damageAmount);
+            return damageAmount;
         }
 
         private float CalculateDamageBonus(BaseUnitController attacker, BaseUnitController defender)
