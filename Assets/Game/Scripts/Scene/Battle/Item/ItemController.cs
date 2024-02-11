@@ -86,9 +86,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Item
                     Messenger.Default.Publish(new AddItemEffectMessage(
                         _currentClickUnit, itemSO.Type, itemSO.Amount));
                 }
+                _itemSelectionScreen.SetActive(false);
             }
-
-            _itemSelectionScreen.SetActive(false);
         }
 
         private void OnClickCancel()
