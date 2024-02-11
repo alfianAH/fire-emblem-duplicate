@@ -9,7 +9,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Stage
         [SerializeField] private StagePhase _stagePhase;
         [SerializeField] private InPhaseEnum _inPhaseEnum;
 
-        public int TurnNumber { get; private set; } = 1;
+        public int TurnNumber { get; private set; }
         public StageData Data { get; private set; }
         public BaseUnitController CurrentUnitOnClick { get; private set; }
         public StagePhase Phase => _stagePhase;

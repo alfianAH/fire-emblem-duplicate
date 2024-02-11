@@ -33,7 +33,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Stage
         {
             ProcessStageData();
             SetPhase(StagePhase.Preparation);
-            Messenger.Default.Publish(new UpdateTurnNumberMessage(1));
+            Messenger.Default.Publish(new UpdateTurnNumberMessage(0));
         }
 
         public void SetCurrentUnitOnClick(ChangeCurrentUnitOnClickMessage message)
