@@ -1,5 +1,6 @@
 using FireEmblemDuplicate.Message;
 using FireEmblemDuplicate.Scene.Battle.Stage;
+using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
 using FireEmblemDuplicate.Scene.Battle.Terrain;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Pool;
 using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
@@ -56,6 +57,26 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
         {
             List<BaseUnitController> units = MakeUnit(message.UnitDatas, _enemyUnitTransform, _enemyUnitColor);
             _unitPool.AddEnemyUnit(units);
+        }
+
+        public void OnAllUnitImmovable(ImmovableUnitMessage message)
+        {
+            switch (message.UnitSide)
+            {
+                case UnitSide.Player:
+                    if (!_unitPool.AreAllPlayerUnitsImmovable()) return;
+                    break;
+
+                case UnitSide.Enemy:
+                    if (!_unitPool.AreAllEnemyUnitsImmovable()) return;
+                    break;
+
+                default: break;
+            }
+
+            // Change phase after one side is immovable
+            StagePhase newPhase = StageController.Instance.Stage.Phase == StagePhase.PlayerPhase ? StagePhase.EnemyPhase : StagePhase.PlayerPhase;
+            Messenger.Default.Publish(new ChangeStagePhaseMessage(newPhase));
         }
 
         private List<BaseUnitController> MakeUnit(List<StageUnitData> unitDatas, 

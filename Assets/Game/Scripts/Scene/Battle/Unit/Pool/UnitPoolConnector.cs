@@ -11,6 +11,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
             Messenger.Default.Subscribe<MakePlayerUnitMessage>(controller.MakePlayerUnit);
             Messenger.Default.Subscribe<MakeEnemyUnitMessage>(controller.MakeEnemyUnit);
             Messenger.Default.Subscribe<UnitDeadMessage>(controller.OnUnitDead);
+            Messenger.Default.Subscribe<ImmovableUnitMessage>(controller.OnAllUnitImmovable);
         }
 
         public override void Unsubscribe()
@@ -18,6 +19,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
             Messenger.Default.Unsubscribe<MakePlayerUnitMessage>(controller.MakePlayerUnit);
             Messenger.Default.Unsubscribe<MakeEnemyUnitMessage>(controller.MakeEnemyUnit);
             Messenger.Default.Unsubscribe<UnitDeadMessage>(controller.OnUnitDead);
+            Messenger.Default.Subscribe<ImmovableUnitMessage>(controller.OnAllUnitImmovable);
         }
     }
 }

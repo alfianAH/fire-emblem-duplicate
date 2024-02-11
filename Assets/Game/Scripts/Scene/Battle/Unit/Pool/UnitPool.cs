@@ -1,3 +1,4 @@
+using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,17 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
     {
         private List<BaseUnitController> _playerUnits = new List<BaseUnitController>();
         private List<BaseUnitController> _enemyUnits = new List<BaseUnitController>();
-        
+
+        public bool AreAllPlayerUnitsImmovable()
+        {
+            return _playerUnits.TrueForAll(u => u.Unit.UnitPhase == UnitPhase.Immovable);
+        }
+
+        public bool AreAllEnemyUnitsImmovable()
+        {
+            return _enemyUnits.TrueForAll(u => u.Unit.UnitPhase == UnitPhase.Immovable);
+        }
+
         public void AddPlayerUnit(List<BaseUnitController> playerUnits)
         {
             _playerUnits.AddRange(playerUnits);

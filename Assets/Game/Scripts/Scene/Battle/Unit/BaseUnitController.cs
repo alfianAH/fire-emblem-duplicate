@@ -123,7 +123,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             if (message.Attacker != this) return;
 
             unit.SetUnitPhase(UnitPhase.Immovable);
-
+            Messenger.Default.Publish(new ImmovableUnitMessage(unit.BaseUnitSO.Side));
             Messenger.Default.Publish(new ChangeCurrentUnitOnClickMessage(null));
         }
 
@@ -206,8 +206,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                     break;
 
                 case UnitPhase.ConfirmOnClick:
-                    // NOTE: CHANGE IT TO IMMOVABLE. THIS IS JUST FOR DEBUG
-                    unit.SetUnitPhase(UnitPhase.Idle);
+                    unit.SetUnitPhase(UnitPhase.Immovable);
+                    Messenger.Default.Publish(new ImmovableUnitMessage(unit.BaseUnitSO.Side));
                     Messenger.Default.Publish(new ChangeStageInPhaseMessage(InPhaseEnum.Idle));
                     Messenger.Default.Publish(new DeactivateAllTerrainIndicatorMessage());
                     Messenger.Default.Publish(new ChangeCurrentUnitOnClickMessage(null));
@@ -255,9 +255,9 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
 
             if (unit.TerrainController != unit.OriginTerrainController)
             {
-                // NOTE: CHANGE IT TO IMMOVABLE. THIS IS JUST FOR DEBUG
-                unit.SetUnitPhase(UnitPhase.Idle);
+                unit.SetUnitPhase(UnitPhase.Immovable);
                 Messenger.Default.Publish(new ChangeCurrentUnitOnClickMessage(null));
+                Messenger.Default.Publish(new ImmovableUnitMessage(unit.BaseUnitSO.Side));
             }
             else
             {
