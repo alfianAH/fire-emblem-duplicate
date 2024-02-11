@@ -23,7 +23,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Stage
         private void Awake()
         {
             Stage = GetComponent<StageModel>();
-            ReadLevelResource(SelectedLevel.Instance.LevelName);
+            if(SelectedLevel.Instance.LevelName != null)
+                ReadLevelResource(SelectedLevel.Instance.LevelName);
+            else
+                ReadLevelResource("Level 1"); // For debugging purpose
         }
 
         private void Start()
