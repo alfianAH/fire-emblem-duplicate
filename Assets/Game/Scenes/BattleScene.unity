@@ -11884,6 +11884,7 @@ MonoBehaviour:
   _resumeButton: {fileID: 586051463}
   _menuScreen: {fileID: 1529350356}
   _settingsScreen: {fileID: 1215212366}
+  _detailsObject: {fileID: 1229598877}
   _turnText: {fileID: 217800617}
   _gameOverScreen: {fileID: 432222909}
   _gameOverTitle: {fileID: 42570901}

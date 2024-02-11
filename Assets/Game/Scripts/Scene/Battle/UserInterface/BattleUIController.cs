@@ -18,6 +18,7 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
         [SerializeField] private Button _endPhaseButton, _menuButton, 
             _settingsButton, _menuHomeButton, _resumeButton;
         [SerializeField] private GameObject _menuScreen, _settingsScreen;
+        [SerializeField] private GameObject _detailsObject;
         [SerializeField] private TextMeshProUGUI _turnText;
 
         [Header("Game over")]
@@ -107,6 +108,7 @@ namespace FireEmblemDuplicate.Scene.Battle.UserInterface
             Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
             _endPhaseButton.gameObject.SetActive(true);
             _fightButton.gameObject.SetActive(false);
+            _detailsObject.gameObject.SetActive(false);
             Messenger.Default.Publish(new ChangeStagePhaseMessage(StagePhase.PlayerPhase));
         }
 
