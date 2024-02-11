@@ -10,12 +10,14 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
         {
             Messenger.Default.Subscribe<PauseGameMessage>(controller.PauseGame);
             Messenger.Default.Subscribe<ResumeGameMessage>(controller.ResumeGame);
+            Messenger.Default.Subscribe<WinMessage>(controller.OnGameOver);
         }
 
         public override void Unsubscribe()
         {
             Messenger.Default.Unsubscribe<PauseGameMessage>(controller.PauseGame);
             Messenger.Default.Unsubscribe<ResumeGameMessage>(controller.ResumeGame);
+            Messenger.Default.Unsubscribe<WinMessage>(controller.OnGameOver);
         }
     }
 }

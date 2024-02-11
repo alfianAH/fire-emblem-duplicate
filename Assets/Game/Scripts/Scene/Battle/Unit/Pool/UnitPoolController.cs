@@ -5,6 +5,7 @@ using FireEmblemDuplicate.Scene.Battle.Terrain;
 using FireEmblemDuplicate.Scene.Battle.Terrain.Pool;
 using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
 using FireEmblemDuplicate.Scene.Battle.Weapon;
+using FireEmblemDuplicate.Utility;
 using SuperMaxim.Messaging;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,7 +34,8 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
 
                     if (_unitPool.RemainingPlayerUnit() == 0)
                     {
-                        Messenger.Default.Publish(new WinMessage(UnitSide.Player));
+                        Messenger.Default.Publish(new WinMessage(UnitSide.Enemy));
+                        Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_GAME_OVER));
                     }
                     break;
 
@@ -42,6 +44,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.Pool
                     if (_unitPool.RemainingEnemyUnit() == 0)
                     {
                         Messenger.Default.Publish(new WinMessage(UnitSide.Player));
+                        Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_GAME_COMPLETE));
                     }
                     break;
             }

@@ -25,6 +25,11 @@ namespace FireEmblemDuplicate.Scene.Battle.Player.Input
             _inputActionManager.Gameplay.Disable();
         }
 
+        public void OnGameOver(WinMessage message)
+        {
+            _inputActionManager.Gameplay.Disable();
+        }
+
         public void PauseGame(PauseGameMessage message)
         {
             _inputActionManager.Gameplay.Disable();
