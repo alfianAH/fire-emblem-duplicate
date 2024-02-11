@@ -1,4 +1,6 @@
 using FireEmblemDuplicate.Message;
+using FireEmblemDuplicate.Scene.Battle.Stage;
+using FireEmblemDuplicate.Scene.Battle.Stage.Enum;
 using FireEmblemDuplicate.Scene.Battle.Unit.Enum;
 using FireEmblemDuplicate.Utility;
 using SuperMaxim.Messaging;
@@ -50,7 +52,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
                     Messenger.Default.Publish(new OnClickAddItemMessage(message.UnitController));
                 });
             }
-            else
+            else if(unit.IsBuffed || StageController.Instance.Stage.Phase != StagePhase.Preparation) 
             {
                 _addItemButton.gameObject.SetActive(false);
             }
