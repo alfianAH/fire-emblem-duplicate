@@ -91,7 +91,7 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
             if (unit.TerrainController.Terrain.CanBeUsed)
             {
                 transform.position = unit.TerrainController.transform.position;
-
+                
                 // Reset unit blocked terrain
                 unit.RemoveBlockedTerrain();
             }
@@ -244,9 +244,10 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit
                 if (_currentTerrain.Terrain.UnitOnTerrain.Unit.BaseUnitSO.Side != unit.BaseUnitSO.Side)
                 {
                     // Battle
+                    Move();
                     Messenger.Default.Publish(new StartBattleMessage(this, _currentTerrain.Terrain.UnitOnTerrain));
                     Messenger.Default.Publish(new DeactivateAllTerrainIndicatorMessage());
-                    Move();
+                    
                     return;
                 }
             }

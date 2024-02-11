@@ -43,19 +43,27 @@ namespace FireEmblemDuplicate.Scene.Battle.Unit.View
             _unitWeapon.sprite = unit.WeaponController.WeaponSO.WeaponSprite;
 
             _addItemButton.onClick.RemoveAllListeners();
-            if (!unit.IsBuffed)
+            if(StageController.Instance.Stage.Phase == StagePhase.Preparation)
             {
-                _addItemButton.gameObject.SetActive(true);
-                _addItemButton.onClick.AddListener(() =>
+                if (!unit.IsBuffed)
                 {
-                    Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
-                    Messenger.Default.Publish(new OnClickAddItemMessage(message.UnitController));
-                });
+                    _addItemButton.gameObject.SetActive(true);
+                    _addItemButton.onClick.AddListener(() =>
+                    {
+                        Messenger.Default.Publish(new PlaySFXMessage(AudioName.SFX_BUTTON_PRESSED));
+                        Messenger.Default.Publish(new OnClickAddItemMessage(message.UnitController));
+                    });
+                }
+                else
+                {
+                    _addItemButton.gameObject.SetActive(false);
+                }
             }
-            else if(unit.IsBuffed || StageController.Instance.Stage.Phase != StagePhase.Preparation) 
+            else
             {
                 _addItemButton.gameObject.SetActive(false);
             }
+            
 
             switch (unit.BaseUnitSO.Affinity)
             {
